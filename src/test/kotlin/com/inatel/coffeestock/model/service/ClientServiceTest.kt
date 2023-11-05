@@ -22,7 +22,7 @@ class ClientServiceTest{
     }
 
     @Nested
-    @DisplayName("Test senario for GET CLIENTS")
+    @DisplayName("Test scenario for GET CLIENTS")
     inner class GetClients{
 
         @Test
@@ -60,7 +60,7 @@ class ClientServiceTest{
     }
 
     @Nested
-    @DisplayName("Test senario for GET CLIENT")
+    @DisplayName("Test scenario for GET CLIENT")
     inner class GetClient{
 
         @Test
