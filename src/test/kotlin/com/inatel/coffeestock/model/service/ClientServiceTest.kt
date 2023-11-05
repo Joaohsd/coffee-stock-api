@@ -91,4 +91,33 @@ class ClientServiceTest{
 
     }
 
+    @Nested
+    @DisplayName("Test scenario for UPDATE CLIENT")
+    inner class UpdateClient{
+        @Test
+        @DisplayName("should provide the updated client")
+        fun verifyCorrectClientUpdated() {
+            // given
+            val updatedClient = Client(123456, "Fulano Beltrano", "123.456.789-10", LocalDate.of(1999, 1, 1), "Santa Rita", "fulano.beltrano@email.com.br", "fulano")
+
+            // when
+            val returnedClient = clientService.updateClient(updatedClient)
+
+            // then
+            assertEquals(updatedClient, returnedClient)
+        }
+
+        @Test
+        @DisplayName("should throw NoSuchElementException when doesn't find client id")
+        fun verifyIncorrectClientUpdated() {
+            // given
+            val updatedClient = Client(1111, "Fulano Beltrano", "123.456.789-10", LocalDate.of(1999, 1, 1), "Santa Rita", "fulano.beltrano@email.com.br", "fulano")
+
+            // when / then
+            assertThrows(NoSuchElementException::class.java){
+                clientService.updateClient(updatedClient)
+            }
+        }
+    }
+
 }

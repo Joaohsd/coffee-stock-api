@@ -11,4 +11,6 @@ class ClientService (
     fun getClients() : Collection<Client> = clientRepository.getClients()
 
     fun getClient(id : Long) : Client = clientRepository.getClient(id)
+
+    fun updateClient(updatedClient : Client) : Client = clientRepository.updateClient(updatedClient)
 }
