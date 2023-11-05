@@ -3,6 +3,7 @@ package com.inatel.coffeestock.model.service
 import com.inatel.coffeestock.mock.MockClientRepository
 import com.inatel.coffeestock.model.repository.ClientRepository
 import com.inatel.coffeestock.model.entity.Client
+import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -116,6 +117,35 @@ class ClientServiceTest{
             // when / then
             assertThrows(NoSuchElementException::class.java){
                 clientService.updateClient(updatedClient)
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Test scenario for CREATE CLIENT")
+    inner class CreateClient{
+        @Test
+        @DisplayName("should provide the created client")
+        fun verifyCorrectClientCreated() {
+            // given
+            val newClient = Client(456789, "Paulo Otavio", "222.222.222-22", LocalDate.of(2002, 1, 1), "Fazenda São Paulo", "paulo.otavio@email.com.br", "paulo")
+
+            // when
+            val returnedClient = clientService.createClient(newClient)
+
+            // then
+            assertEquals(newClient, returnedClient)
+        }
+
+        @Test
+        @DisplayName("should throw ElementAlreadyExistsException when find client with given id")
+        fun verifyIncorrectClientCreated() {
+            // given
+            val newClient = Client(234567, "Ciclano Fulano", "999.999.999-99", LocalDate.of(1996, 2, 2), "Rancho Alegre", "ciclano@email.com.br", "ciclano")
+
+            // when / then
+            assertThrows(ElementAlreadyExistsException::class.java){
+                clientService.createClient(newClient)
             }
         }
     }
