@@ -67,7 +67,7 @@ class ClientServiceTest{
         @DisplayName("should provide the client with desired id")
         fun verifyCorrectClientRetrieved() {
             // given
-            val desiredClientID: Long = 1
+            val desiredClientID: Long = 123456
             val desiredClient = Client(123456, "Fulano Ciclano", "123.456.789-10", LocalDate.of(1999, 1, 1), "Santa Rita", "fulano@email.com.br", "fulano")
 
             // when
