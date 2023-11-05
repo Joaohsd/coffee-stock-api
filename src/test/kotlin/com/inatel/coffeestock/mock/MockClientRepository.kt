@@ -36,4 +36,12 @@ class MockClientRepository:ClientRepository{
         return updatedClient
     }
 
+    override fun deleteClient(id: Long): Client{
+        val clientToBeRemoved = clients.firstOrNull({it.getId() == id})
+                ?: throw NoSuchElementException("Could not find a client with given ID ${id}")
+
+        clients.remove(clientToBeRemoved)
+        return clientToBeRemoved
+    }
+
 }
