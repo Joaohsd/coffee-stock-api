@@ -109,7 +109,7 @@ class ClientServiceTest{
         }
 
         @Test
-        @DisplayName("should throw ElementAlreadyExistsException when find client with given id")
+        @DisplayName("should throw ElementAlreadyExistsException client already exists")
         fun verifyIncorrectClientCreated() {
             // given
             val newClient = Client(234567, "Ciclano Fulano", "999.999.999-99", LocalDate.of(1996, 2, 2), "Rancho Alegre", "ciclano@email.com.br", "ciclano")
