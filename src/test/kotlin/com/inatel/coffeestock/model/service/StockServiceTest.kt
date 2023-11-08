@@ -87,7 +87,7 @@ class StockServiceTest {
     }
 
     @Nested
-    @DisplayName("Test scenario for Create Stock")
+    @DisplayName("Test scenario for CREATE STOCK")
     inner class CreateStock{
 
         @Test

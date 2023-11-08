@@ -1,6 +1,8 @@
+import com.adarshr.gradle.testlogger.theme.Theme
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+	id("com.adarshr.test-logger") version "4.0.0"
 	id("org.springframework.boot") version "3.1.5"
 	id("io.spring.dependency-management") version "1.1.3"
 	kotlin("jvm") version "1.8.22"
@@ -35,4 +37,24 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+
+	testlogger{
+		setTheme("mocha")
+		setShowExceptions(true)
+		setShowStackTraces(true)
+		setShowFullStackTraces(false)
+		setShowCauses(true)
+		setSlowThreshold(2000)
+		setShowSummary(true)
+		setShowSimpleNames(false)
+		setShowPassed(true)
+		setShowSkipped(true)
+		setShowFailed(true)
+		setShowOnlySlow(false)
+		setShowStandardStreams(false)
+		setShowPassedStandardStreams(true)
+		setShowSkippedStandardStreams(true)
+		setShowFailedStandardStreams(true)
+		setLogLevel("lifecycle")
+	}
 }
