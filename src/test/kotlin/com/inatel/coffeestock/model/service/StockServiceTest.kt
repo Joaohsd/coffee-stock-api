@@ -3,6 +3,7 @@ package com.inatel.coffeestock.model.service
 import com.inatel.coffeestock.model.entity.Client
 import com.inatel.coffeestock.model.entity.Stock
 import com.inatel.coffeestock.model.repository.StockRepository
+import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -43,7 +44,7 @@ class StockServiceTest {
             val stocks = stockService.getStocks()
 
             // then
-            Assertions.assertEquals(numberOfStocks, stocks.size)
+            assertEquals(numberOfStocks, stocks.size)
         }
 
 
@@ -83,14 +84,41 @@ class StockServiceTest {
             }
 
         }
-
-
-
-
-
     }
 
+    @Nested
+    @DisplayName("Test scenario for Create Stock")
+    inner class CreateStock{
 
+        @Test
+        @DisplayName("should provide the created stock ")
+        fun verifyCorrectStockCreated() {
+            // given
+            val newStock = Stock(44444, 20, "Arabic", 50.0, 234567)
+            every { stockRepository.createStock(newStock)} returns newStock
 
+            // when
+            val returnedStock = stockService.createStock(newStock)
+
+            // then
+            assertEquals(newStock, returnedStock)
+        }
+
+        @Test
+        @DisplayName("should throw ElementAlreadyExistsException when stock already exists")
+        fun verifyIncorrectStockCreated() {
+            // given
+            val newStock = Stock(1111, 20, "Arabic", 50.0, 234567)
+            every { stockRepository.createStock(newStock) }.throws(ElementAlreadyExistsException("Stock with given ${newStock.getId()} already exists"))
+
+            // when / then
+            assertThrows(ElementAlreadyExistsException::class.java) {
+                stockService.createStock(newStock)
+            }
+        }
+    }
 
 }
+
+
+
