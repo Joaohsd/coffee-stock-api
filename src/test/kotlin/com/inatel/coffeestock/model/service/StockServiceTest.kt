@@ -1,6 +1,5 @@
 package com.inatel.coffeestock.model.service
 
-import com.inatel.coffeestock.model.entity.Client
 import com.inatel.coffeestock.model.entity.Stock
 import com.inatel.coffeestock.model.repository.StockRepository
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
@@ -8,7 +7,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.*
-import java.time.LocalDate
 import org.junit.jupiter.api.Assertions.*
 
 class StockServiceTest {
@@ -39,7 +37,6 @@ class StockServiceTest {
             val numberOfStocks = 3
             every { stockRepository.getStocks()} returns _stocks
 
-
             // when
             val stocks = stockService.getStocks()
 
@@ -58,7 +55,7 @@ class StockServiceTest {
             val stocks = stockService.getStocks()
 
             // then
-            Assertions.assertAll(
+            assertAll(
                     "Stocks",
                     {
                         _stocks.forEach(
@@ -87,6 +84,38 @@ class StockServiceTest {
     }
 
     @Nested
+    @DisplayName("Test scenario for GET STOCK")
+    inner class GetStock{
+        @Test
+        @DisplayName("should provide the stock with desired id")
+        fun verifyCorrectStockRetrieved() {
+            // given
+            val desiredStockID: Long = 11111
+            val desiredStock = Stock(11111, 30, "Arabic", 20.0, 123456)
+            every { stockRepository.getStock(desiredStockID)} returns _stocks.get(0)
+
+            // when
+            val stock = stockService.getStock(desiredStockID)
+        
+            // then
+            assertEquals(desiredStock, stock)
+        }
+
+        @Test
+        @DisplayName("should throw NoSuchElementException when doesn't find stock id")
+        fun verifyIncorrectStockRetrieved() {
+            // given
+            val incorrectStockID: Long = 9999
+            every { stockRepository.getStock(incorrectStockID)}.throws(NoSuchElementException("Could not find a stock with given ID $incorrectStockID"))
+
+            // when / then
+            assertThrows(NoSuchElementException::class.java){
+                stockService.getStock(incorrectStockID)
+            }
+        }
+    }
+    
+    @Nested
     @DisplayName("Test scenario for CREATE STOCK")
     inner class CreateStock{
 
@@ -108,7 +137,7 @@ class StockServiceTest {
         @DisplayName("should throw ElementAlreadyExistsException when stock already exists")
         fun verifyIncorrectStockCreated() {
             // given
-            val newStock = Stock(1111, 20, "Arabic", 50.0, 234567)
+            val newStock = Stock(11111, 20, "Arabic", 50.0, 234567)
             every { stockRepository.createStock(newStock) }.throws(ElementAlreadyExistsException("Stock with given ${newStock.getId()} already exists"))
 
             // when / then
@@ -117,8 +146,4 @@ class StockServiceTest {
             }
         }
     }
-
 }
-
-
-
