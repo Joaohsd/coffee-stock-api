@@ -146,4 +146,67 @@ class StockServiceTest {
             }
         }
     }
+    @Nested
+    @DisplayName("Test scenario for UPDATE STOCK")
+    inner class UpdateStock{
+        @Test
+        @DisplayName("should provide the updated stock")
+        fun verifyCorrectStockUpdated() {
+            // given
+            val updatedStock = Stock(44444, 50, "Arabic", 40.0, 123456)
+            every { stockRepository.updateStock(updatedStock)} returns updatedStock
+
+            // when
+            val returnedStock = stockService.updateStock(updatedStock)
+
+            // then
+            assertEquals(updatedStock, returnedStock)
+        }
+
+        @Test
+        @DisplayName("should throw NoSuchElementException when doesn't find stock id")
+        fun verifyIncorrectStockUpdated() {
+            // given
+            val updatedStock = Stock(9999, 50, "Arabic", 40.0, 123456)
+            every { stockRepository.updateStock(updatedStock)}.throws(NoSuchElementException("Could not find a client with given ID ${updatedStock.getId()}"))
+
+            // when / then
+            assertThrows(NoSuchElementException::class.java){
+                stockService.updateStock(updatedStock)
+            }
+
+        }
+    }
+
+    @Nested
+    @DisplayName("Test scenario for DELETE STOCK")
+    inner class DeleteStock {
+        @Test
+        @DisplayName("should provide the deleted stock")
+        fun verifyCorrectStockDeleted() {
+            // given
+            val targetStockId: Long = 22222
+            val deletedStock = Stock(22222, 40, "Arabic", 30.0, 234567)
+            every { stockRepository.deleteStock(targetStockId) } returns deletedStock
+
+            // when
+            val returnedStock = stockService.deleteStock(targetStockId)
+
+            // then
+            assertEquals(deletedStock, returnedStock)
+        }
+
+        @Test
+        @DisplayName("should throw NoSuchElementException when doesn't find client id")
+        fun verifyIncorrectClientDeleted() {
+            // given
+            val targetStockId: Long = 9999
+            every { stockRepository.deleteStock(targetStockId) }.throws(NoSuchElementException("Could not find a stock with given ID ${targetStockId}"))
+
+            // when / then
+            assertThrows(NoSuchElementException::class.java) {
+                stockService.deleteStock(targetStockId)
+            }
+        }
+    }
 }
