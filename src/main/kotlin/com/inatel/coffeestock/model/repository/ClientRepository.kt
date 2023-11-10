@@ -6,4 +6,10 @@ interface ClientRepository {
     fun getClients() : Collection<Client>
 
     fun getClient(id:Long) : Client
+
+    fun createClient(newClient:Client) : Client
+
+    fun updateClient(updatedClient:Client) : Client
+
+    fun deleteClient(id:Long) : Client
 }

@@ -3,6 +3,7 @@ package com.inatel.coffeestock.model.service
 import com.inatel.coffeestock.mock.MockClientRepository
 import com.inatel.coffeestock.model.repository.ClientRepository
 import com.inatel.coffeestock.model.entity.Client
+import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -89,6 +90,94 @@ class ClientServiceTest{
             }
         }
 
+    }
+
+    @Nested
+    @DisplayName("Test scenario for CREATE CLIENT")
+    inner class CreateClient{
+        @Test
+        @DisplayName("should provide the created client")
+        fun verifyCorrectClientCreated() {
+            // given
+            val newClient = Client(456789, "Paulo Otavio", "222.222.222-22", LocalDate.of(2002, 1, 1), "Fazenda São Paulo", "paulo.otavio@email.com.br", "paulo")
+
+            // when
+            val returnedClient = clientService.createClient(newClient)
+
+            // then
+            assertEquals(newClient, returnedClient)
+        }
+
+        @Test
+        @DisplayName("should throw ElementAlreadyExistsException client already exists")
+        fun verifyIncorrectClientCreated() {
+            // given
+            val newClient = Client(234567, "Ciclano Fulano", "999.999.999-99", LocalDate.of(1996, 2, 2), "Rancho Alegre", "ciclano@email.com.br", "ciclano")
+
+            // when / then
+            assertThrows(ElementAlreadyExistsException::class.java){
+                clientService.createClient(newClient)
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Test scenario for UPDATE CLIENT")
+    inner class UpdateClient{
+        @Test
+        @DisplayName("should provide the updated client")
+        fun verifyCorrectClientUpdated() {
+            // given
+            val updatedClient = Client(123456, "Fulano Beltrano", "123.456.789-10", LocalDate.of(1999, 1, 1), "Santa Rita", "fulano.beltrano@email.com.br", "fulano")
+
+            // when
+            val returnedClient = clientService.updateClient(updatedClient)
+
+            // then
+            assertEquals(updatedClient, returnedClient)
+        }
+
+        @Test
+        @DisplayName("should throw NoSuchElementException when doesn't find client id")
+        fun verifyIncorrectClientUpdated() {
+            // given
+            val updatedClient = Client(1111, "Fulano Beltrano", "123.456.789-10", LocalDate.of(1999, 1, 1), "Santa Rita", "fulano.beltrano@email.com.br", "fulano")
+
+            // when / then
+            assertThrows(NoSuchElementException::class.java){
+                clientService.updateClient(updatedClient)
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Test scenario for DELETE CLIENT")
+    inner class DeleteClient{
+        @Test
+        @DisplayName("should provide the deleted client")
+        fun verifyCorrectClientDeleted() {
+            // given
+            val targetClientId: Long = 123456
+            val deletedClient = Client(123456, "Fulano Ciclano", "123.456.789-10", LocalDate.of(1999, 1, 1), "Santa Rita", "fulano@email.com.br", "fulano")
+
+            // when
+            val returnedClient = clientService.deleteClient(targetClientId)
+
+            // then
+            assertEquals(deletedClient, returnedClient)
+        }
+
+        @Test
+        @DisplayName("should throw NoSuchElementException when doesn't find client id")
+        fun verifyIncorrectClientDeleted() {
+            // given
+            val targetClientId: Long = 1111
+
+            // when / then
+            assertThrows(NoSuchElementException::class.java){
+                clientService.deleteClient(targetClientId)
+            }
+        }
     }
 
 }

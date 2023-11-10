@@ -11,4 +11,10 @@ class ClientService (
     fun getClients() : Collection<Client> = clientRepository.getClients()
 
     fun getClient(id : Long) : Client = clientRepository.getClient(id)
+
+    fun createClient(newClient : Client) : Client = clientRepository.createClient(newClient)
+
+    fun updateClient(updatedClient : Client) : Client = clientRepository.updateClient(updatedClient)
+
+    fun deleteClient(id : Long) : Client = clientRepository.deleteClient(id)
 }

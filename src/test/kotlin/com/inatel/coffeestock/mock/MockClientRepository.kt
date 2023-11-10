@@ -2,6 +2,7 @@ package com.inatel.coffeestock.mock
 
 import com.inatel.coffeestock.model.entity.Client
 import com.inatel.coffeestock.model.repository.ClientRepository
+import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import java.time.LocalDate
 
 class MockClientRepository:ClientRepository{
@@ -16,6 +17,31 @@ class MockClientRepository:ClientRepository{
     override fun getClient(id: Long): Client {
         return clients.firstOrNull{ it.getId() == id }
             ?: throw NoSuchElementException("Could not find a client with given ID $id")
+    }
+
+    override fun createClient(newClient: Client): Client{
+        if (clients.any { it.getId() == newClient.getId() }){
+            throw ElementAlreadyExistsException("Client with given ${newClient.getId()} already exists")
+        }
+        clients.add(newClient)
+
+        return newClient
+    }
+
+    override fun updateClient(updatedClient: Client): Client {
+        val clientToBeRemoved = clients.firstOrNull({it.getId() == updatedClient.getId()})
+                ?: throw NoSuchElementException("Could not find a client with given ID ${updatedClient.getId()}")
+        clients.remove(clientToBeRemoved)
+        clients.add(updatedClient)
+        return updatedClient
+    }
+
+    override fun deleteClient(id: Long): Client{
+        val clientToBeRemoved = clients.firstOrNull({it.getId() == id})
+                ?: throw NoSuchElementException("Could not find a client with given ID ${id}")
+
+        clients.remove(clientToBeRemoved)
+        return clientToBeRemoved
     }
 
 }
