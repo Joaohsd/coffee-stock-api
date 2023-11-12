@@ -20,12 +20,13 @@ Após clonar o repositório é possível rodar os testes ou fazer a build do pro
 ```
 
 ## Dependências principais do projeto
-| Nome | Versão |
-|------|--------|
-|Spring Boot|3.1.5|
-|Kotlin|1.8.22|
-|Mockk|1.13.8|
-|Spring Boot Star Test|3.1.5|
+| Nome                     | Versão |
+|--------------------------|--------|
+| Spring Boot              | 3.1.5  |
+| Kotlin                   | 1.8.22 |
+| Mockk                    | 1.13.8 |
+| Spring Boot Starter Test | 3.1.5  |
+| JUnit                    | 5.9.3  |
 
 ## Integrantes
 ```
