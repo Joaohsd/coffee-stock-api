@@ -6,15 +6,15 @@ import org.springframework.stereotype.Service
 
 @Service
 class StockService(
-    private val StockRepository: StockRepository
+    private val stockRepository: StockRepository
 ){
-    fun getStocks() : Collection<Stock> = StockRepository.getStocks()
+    fun getStocks() : Collection<Stock> = stockRepository.getStocks()
 
-    fun getStock(id : Long) : Stock = StockRepository.getStock(id)
+    fun getStock(id : Long) : Stock = stockRepository.getStock(id)
 
-    fun createStock(newStock : Stock) : Stock = StockRepository.createStock(newStock)
+    fun createStock(newStock : Stock) : Stock = stockRepository.createStock(newStock)
 
-    fun updateStock(updatedStock : Stock) : Stock = StockRepository.updateStock(updatedStock)
+    fun updateStock(updatedStock : Stock) : Stock = stockRepository.updateStock(updatedStock)
 
-    fun deleteStock(id : Long) : Stock = StockRepository.deleteStock(id)
+    fun deleteStock(id : Long) : Unit = stockRepository.deleteStock(id)
 }

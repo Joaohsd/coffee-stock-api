@@ -186,14 +186,15 @@ class StockServiceTest {
         fun verifyCorrectStockDeleted() {
             // given
             val targetStockId: Long = 22222
-            val deletedStock = Stock(22222, 40, "Arabic", 30.0, 234567)
-            every { stockRepository.deleteStock(targetStockId) } returns deletedStock
+            val expectedValue = Unit
+            //val deletedStock = Stock(22222, 40, "Arabic", 30.0, 234567)
+            every { stockRepository.deleteStock(targetStockId) } returns Unit
 
             // when
-            val returnedStock = stockService.deleteStock(targetStockId)
+            val returnedValue = stockService.deleteStock(targetStockId)
 
             // then
-            assertEquals(deletedStock, returnedStock)
+            assertEquals(expectedValue, returnedValue)
         }
 
         @Test

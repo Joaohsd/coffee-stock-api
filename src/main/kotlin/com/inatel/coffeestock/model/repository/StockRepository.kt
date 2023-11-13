@@ -10,6 +10,6 @@ interface StockRepository {
 
     fun updateStock(updatedStock:Stock) : Stock
 
-    fun deleteStock(id:Long) : Stock
+    fun deleteStock(id:Long) : Unit
 
 }
