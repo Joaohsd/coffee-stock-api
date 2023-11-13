@@ -31,10 +31,10 @@ jobs:
       - name: Test with Gradle
         run: ./gradlew clean test
       - name: Artefacts Upload
-        uses: actions/setup-java@v3
+        uses: actions/upload-artifact@v3
         with:
           name: Tests report
-          path: file:///C:/Users/poluc/OneDrive/Seminario_C214/coffee-stock-api/build/reports/tests/test/index.html
+          path: coffee-stock-api/build/reports/tests/test
 
 
   build:
