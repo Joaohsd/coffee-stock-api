@@ -34,11 +34,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Tests report
-          path: coffee-stock-api/build/reports/tests/test
+          path: build/reports/tests/test
 
 
   build:
 
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
