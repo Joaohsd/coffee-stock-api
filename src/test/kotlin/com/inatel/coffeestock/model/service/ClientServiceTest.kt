@@ -4,6 +4,7 @@ import com.inatel.coffeestock.mock.MockClientRepository
 import com.inatel.coffeestock.model.repository.ClientRepository
 import com.inatel.coffeestock.model.entity.Client
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
+import io.mockk.every
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -158,13 +159,13 @@ class ClientServiceTest{
         fun verifyCorrectClientDeleted() {
             // given
             val targetClientId: Long = 123456
-            val deletedClient = Client(123456, "Fulano Ciclano", "123.456.789-10", LocalDate.of(1999, 1, 1), "Santa Rita", "fulano@email.com.br", "fulano")
+            val expectedValue = Unit
 
             // when
-            val returnedClient = clientService.deleteClient(targetClientId)
+            val returnedValue = clientService.deleteClient(targetClientId)
 
             // then
-            assertEquals(deletedClient, returnedClient)
+            assertEquals(expectedValue, returnedValue)
         }
 
         @Test
