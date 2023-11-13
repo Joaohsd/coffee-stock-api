@@ -16,5 +16,5 @@ class ClientService (
 
     fun updateClient(updatedClient : Client) : Client = clientRepository.updateClient(updatedClient)
 
-    fun deleteClient(id : Long) : Client = clientRepository.deleteClient(id)
+    fun deleteClient(id : Long) : Unit = clientRepository.deleteClient(id)
 }
