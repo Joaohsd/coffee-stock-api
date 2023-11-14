@@ -1,4 +1,4 @@
-package com.inatel.coffeestock.model.repository
+package com.inatel.coffeestock.model.repository.interfaces
 import com.inatel.coffeestock.model.entity.Stock
 interface StockRepository {
 

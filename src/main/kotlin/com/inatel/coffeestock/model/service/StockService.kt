@@ -1,12 +1,13 @@
 package com.inatel.coffeestock.model.service
 
 import com.inatel.coffeestock.model.entity.Stock
-import com.inatel.coffeestock.model.repository.StockRepository
+import com.inatel.coffeestock.model.repository.interfaces.StockRepository
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 
 @Service
 class StockService(
-    private val stockRepository: StockRepository
+    @Qualifier("mock_stock") private val stockRepository: StockRepository
 ){
     fun getStocks() : Collection<Stock> = stockRepository.getStocks()
 

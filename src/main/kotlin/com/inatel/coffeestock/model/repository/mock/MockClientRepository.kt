@@ -1,11 +1,13 @@
-package com.inatel.coffeestock.mock
+package com.inatel.coffeestock.model.repository.mock
 
 import com.inatel.coffeestock.model.entity.Client
-import com.inatel.coffeestock.model.repository.ClientRepository
+import com.inatel.coffeestock.model.repository.interfaces.ClientRepository
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
+import org.springframework.stereotype.Repository
 import java.time.LocalDate
 
-class MockClientRepository:ClientRepository{
+@Repository("mock_client")
+class MockClientRepository: ClientRepository {
     private val clients = mutableListOf<Client>(
         Client(123456, "Fulano Ciclano", "123.456.789-10", LocalDate.of(1999, 1, 1), "Santa Rita", "fulano@email.com.br", "fulano"),
         Client(234567, "Ciclano Fulano", "999.999.999-99", LocalDate.of(1996, 2, 2), "Rancho Alegre", "ciclano@email.com.br", "ciclano"),

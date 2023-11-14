@@ -1,7 +1,7 @@
 package com.inatel.coffeestock.model.service
 
 import com.inatel.coffeestock.model.entity.Stock
-import com.inatel.coffeestock.model.repository.StockRepository
+import com.inatel.coffeestock.model.repository.interfaces.StockRepository
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import io.mockk.every
 import io.mockk.mockk

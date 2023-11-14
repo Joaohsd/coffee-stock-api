@@ -1,10 +1,9 @@
 package com.inatel.coffeestock.model.service
 
-import com.inatel.coffeestock.mock.MockClientRepository
-import com.inatel.coffeestock.model.repository.ClientRepository
+import com.inatel.coffeestock.model.repository.mock.MockClientRepository
+import com.inatel.coffeestock.model.repository.interfaces.ClientRepository
 import com.inatel.coffeestock.model.entity.Client
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
-import io.mockk.every
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

@@ -1,12 +1,13 @@
 package com.inatel.coffeestock.model.service
 
 import com.inatel.coffeestock.model.entity.Client
-import com.inatel.coffeestock.model.repository.ClientRepository
+import com.inatel.coffeestock.model.repository.interfaces.ClientRepository
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 
 @Service
 class ClientService (
-    private val clientRepository: ClientRepository
+    @Qualifier("mock_client") private val clientRepository: ClientRepository
 ){
     fun getClients() : Collection<Client> = clientRepository.getClients()
 
