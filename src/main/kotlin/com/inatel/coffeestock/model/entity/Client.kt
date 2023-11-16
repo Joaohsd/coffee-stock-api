@@ -1,5 +1,6 @@
 package com.inatel.coffeestock.model.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 
 data class Client(
@@ -23,5 +24,6 @@ data class Client(
 
     fun getEmail() : String = _email
 
+    @JsonIgnore
     fun getPassword() : String = _password
 }
