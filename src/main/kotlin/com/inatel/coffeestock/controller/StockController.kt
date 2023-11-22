@@ -3,11 +3,13 @@ package com.inatel.coffeestock.controller
 import com.inatel.coffeestock.model.entity.Stock
 import com.inatel.coffeestock.model.service.StockService
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
+import org.springframework.core.annotation.AliasFor
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@RestController("/api/stocks")
+@RestController
+@RequestMapping("/api/stocks")
 class StockController (private val stockService: StockService){
 
     @ExceptionHandler(NoSuchElementException::class)

@@ -106,7 +106,8 @@ class StockServiceTest {
         fun verifyIncorrectStockRetrieved() {
             // given
             val incorrectStockID: Long = 9999
-            every { stockRepository.getStock(incorrectStockID)}.throws(NoSuchElementException("Could not find a stock with given ID $incorrectStockID"))
+            every { stockRepository.getStock(incorrectStockID)}
+                    .throws(NoSuchElementException("Could not find a stock with given ID $incorrectStockID"))
 
             // when / then
             assertThrows(NoSuchElementException::class.java){
