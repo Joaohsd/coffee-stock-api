@@ -3,12 +3,14 @@ package com.inatel.coffeestock.controller
 import com.inatel.coffeestock.model.entity.Client
 import com.inatel.coffeestock.model.service.ClientService
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
 @RestController
+@Tag(name = "Client Resource", description = "Resource to perform a full CRUD for Client entity.")
 @RequestMapping("/api/clients")
 class ClientController(private val clientService: ClientService) {
     @ExceptionHandler(NoSuchElementException::class)
