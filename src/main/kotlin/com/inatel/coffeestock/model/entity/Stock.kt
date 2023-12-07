@@ -3,22 +3,22 @@ package com.inatel.coffeestock.model.entity
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class Stock (
-    private val _id : Long,
-    private val _quantity: Int,
-    private val _coffeeType: String,
-    private val _coffeeCupping: Double,
-    private val _status: String,
-    @JsonIgnore private val _clientCpf : String
+    private val id : Long,
+    private val quantity: Int,
+    private val coffeeType: String,
+    private val coffeeCupping: Double,
+    private val status: String,
+    private val clientCpf : String
 ){
-    fun getId() : Long = _id
+    fun getId() : Long = id
 
-    fun getQuantity() : Int = _quantity
+    fun getQuantity() : Int = quantity
 
-    fun getCoffeeType() : String = _coffeeType
+    fun getCoffeeType() : String = coffeeType
 
-    fun getCoffeeCupping() : Double = _coffeeCupping
+    fun getCoffeeCupping() : Double = coffeeCupping
 
-    fun getClientId() : String  = _clientCpf
+    fun getClientId() : String  = clientCpf
 
-    fun getStatus() : String  = _status
+    fun getStatus() : String  = status
 }
