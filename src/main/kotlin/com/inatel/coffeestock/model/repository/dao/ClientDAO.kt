@@ -86,6 +86,8 @@ class ClientDAO: DatabaseDAO(),ClientRepository {
     }
 
     override fun createClient(newClient: Client): Client? {
+        var clientCreated:Client? = null
+
         connectToDB()
 
         val sql = "INSERT INTO client (cpf, name, birthDate, estate, email, isAdmin, password) VALUES (?,?,?,?,?,?,?)"
@@ -100,7 +102,7 @@ class ClientDAO: DatabaseDAO(),ClientRepository {
             _pst?.setBoolean(6, newClient.isAdmin())
             _pst?.setString(7, newClient.getPassword())
             _pst?.execute()
-            return newClient
+            clientCreated = newClient
         } catch (exc: SQLException) {
             println("Erro: " + exc.message)
         } finally {
@@ -111,7 +113,7 @@ class ClientDAO: DatabaseDAO(),ClientRepository {
                 println("Erro: " + exc.message)
             }
         }
-        return null
+        return clientCreated
     }
 
     override fun updateClient(updatedClient: Client): Client? {
@@ -141,13 +143,15 @@ class ClientDAO: DatabaseDAO(),ClientRepository {
         return updatedClient
     }
 
-    override fun deleteClient(cpf: String) : Unit {
+    override fun deleteClient(cpf: String) : Boolean {
+        var success : Boolean = false
         connectToDB()
         val sql = "DELETE FROM client where cpf=?"
         try {
             _pst = _con?.prepareStatement(sql)
             _pst?.setString(1, cpf)
             _pst?.execute()
+            success = true
         } catch (ex: SQLException) {
             println("Erro = " + ex.message)
         } finally {
@@ -158,7 +162,7 @@ class ClientDAO: DatabaseDAO(),ClientRepository {
                 println("Erro: " + exc.message)
             }
         }
-        return Unit
+        return success
     }
 
 }

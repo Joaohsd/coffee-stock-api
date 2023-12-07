@@ -11,5 +11,5 @@ interface ClientRepository {
 
     fun updateClient(updatedClient:Client) : Client?
 
-    fun deleteClient(cpf:String) : Unit
+    fun deleteClient(cpf:String) : Boolean
 }

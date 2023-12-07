@@ -8,16 +8,31 @@ import java.time.LocalDate
 data class ClientDTO (
     @NotBlank
     @Size(min = 11, max = 11, message = "CPF: Out of length (min:11 and max:11 characters).")
-    val _cpf : String,
+    private val cpf : String,
     @NotBlank
-    val _name: String,
+    private val name: String,
     @NotBlank
-    val _birthDate: String,
+    private val birthDate: String,
     @NotBlank
-    val _estate: String,
+    private val estate: String,
     @NotBlank
-    val _email: String,
+    private val email: String,
     @NotNull
-    val _isAdmin: Boolean,
+    private val isAdmin: Boolean,
+    @NotBlank
+    private val password: String
 ){
+    fun getName() : String = name
+
+    fun getCpf() : String = cpf
+
+    fun getBirthDate() : String = birthDate
+
+    fun getEstate() : String  = estate
+
+    fun getEmail() : String = email
+
+    fun getPassword() : String = password
+
+    fun isAdmin() : Boolean = isAdmin
 }

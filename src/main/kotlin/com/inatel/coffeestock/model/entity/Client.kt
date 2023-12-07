@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 
 data class Client(
-    private val cpf : String,
-    private val name: String,
-    private val birthDate: String,
-    private val estate: String,
-    private val email: String,
-    private val isAdmin: Boolean,
-    private val password: String
+    private var cpf : String = "",
+    private var name: String = "",
+    private var birthDate: String = "",
+    private var estate: String = "",
+    private var email: String = "",
+    private var isAdmin: Boolean = false,
+    private var password: String = ""
 ){
+
     fun getName() : String = name
 
     fun getCpf() : String = cpf
@@ -25,4 +26,33 @@ data class Client(
     fun getPassword() : String = password
 
     fun isAdmin() : Boolean = isAdmin
+
+    // Setters for all properties
+    fun setCpf(value: String) {
+        cpf = value
+    }
+
+    fun setName(value: String) {
+        name = value
+    }
+
+    fun setBirthDate(value: String) {
+        birthDate = value
+    }
+
+    fun setEstate(value: String) {
+        estate = value
+    }
+
+    fun setEmail(value: String) {
+        email = value
+    }
+
+    fun setIsAdmin(value: Boolean) {
+        isAdmin = value
+    }
+
+    fun setPassword(value: String) {
+        password = value
+    }
 }
