@@ -1,9 +1,12 @@
 package com.inatel.coffeestock.controller
 
+import com.inatel.coffeestock.model.dto.StockDTO
 import com.inatel.coffeestock.model.entity.Stock
 import com.inatel.coffeestock.model.service.StockService
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
+import org.springframework.beans.BeanUtils
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -24,22 +27,53 @@ class StockController (private val stockService: StockService){
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getStocks() : Collection<Stock> = stockService.getStocks();
+    fun getStocks() : ResponseEntity<Any>{
+        return ResponseEntity.status(HttpStatus.OK).body(stockService.getStocks())
+    }
 
-    @GetMapping("/{stockID}")
+    @GetMapping("/{stockId}")
     @ResponseStatus(HttpStatus.OK)
-    fun getStock(@PathVariable stockID: Long) = stockService.getStock(stockID);
+    fun getStock(@PathVariable stockId: Int) : ResponseEntity<Any>{
+        return ResponseEntity.status(HttpStatus.OK).body(stockService.getStock(stockId))
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addStock(@RequestBody stock: Stock) : Stock = stockService.createStock(stock);
+    fun addStock(@RequestBody @Valid stockDTO: StockDTO) : ResponseEntity<Any> {
+        var stockToBeAdded = Stock()
 
+        BeanUtils.copyProperties(stockDTO, stockToBeAdded)
+
+        val stockAdded = stockService.createStock(stockToBeAdded)
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(stockAdded);
+    }
+
+    @PutMapping("/{stockId}/status/{stockStatus}")
+    @ResponseStatus(HttpStatus.OK)
+    fun updateStockStatus(@PathVariable stockId: Int, @PathVariable stockStatus: String) : ResponseEntity<Any> {
+        val stockUpdated = stockService.updateStockStatus(stockId, stockStatus)
+
+        return ResponseEntity.status(HttpStatus.OK).body(stockUpdated);
+    }
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    fun updateStock(@RequestBody stock: Stock) : Stock = stockService.updateStock(stock);
+    fun updateStockStatus(@RequestBody stockDTO: StockDTO) : ResponseEntity<Any> {
+        var stockToBeUpdated = Stock()
 
-    @DeleteMapping("/{stockID}")
+        BeanUtils.copyProperties(stockDTO, stockToBeUpdated)
+
+        val stockUpdated = stockService.updateStock(stockToBeUpdated)
+
+        return ResponseEntity.status(HttpStatus.OK).body(stockUpdated);
+    }
+
+    @DeleteMapping("/{stockId}")
     @ResponseStatus(HttpStatus.OK)
-    fun deleteStock(@PathVariable stockID: Long) : Unit = stockService.deleteStock(stockID);
+    fun deleteStock(@PathVariable stockId: Int) : ResponseEntity<Any> {
+        val stockDeleted = stockService.deleteStock(stockId)
+
+        return ResponseEntity.status(HttpStatus.OK).body(stockDeleted);
+    }
 
 }

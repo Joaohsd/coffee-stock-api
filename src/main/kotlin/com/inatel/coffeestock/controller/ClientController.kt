@@ -3,6 +3,7 @@ package com.inatel.coffeestock.controller
 import com.inatel.coffeestock.model.dto.ClientDTO
 import com.inatel.coffeestock.model.entity.Client
 import com.inatel.coffeestock.model.service.ClientService
+import com.inatel.coffeestock.model.service.StockService
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
@@ -17,7 +18,7 @@ import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 @RestController
 @Tag(name = "Client Resource", description = "Resource to perform a full CRUD for Client entity.")
 @RequestMapping("/api/clients")
-class ClientController(private val clientService: ClientService) {
+class ClientController(private val clientService: ClientService, private val stockService: StockService) {
     @ExceptionHandler(NoSuchElementException::class)
     fun handleNotFound(e : NoSuchElementException) : ResponseEntity<String> =
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.message);
@@ -71,5 +72,10 @@ class ClientController(private val clientService: ClientService) {
         return ResponseEntity.status(HttpStatus.OK).body(clientDeleted);
     }
 
+    @GetMapping("/{clientCpf}/stocks")
+    @ResponseStatus(HttpStatus.OK)
+    fun getStocksFromClient(@PathVariable clientCpf: String) : ResponseEntity<Any>{
+        return ResponseEntity.status(HttpStatus.OK).body(stockService.getStocksFromClient(clientCpf))
+    }
 
 }

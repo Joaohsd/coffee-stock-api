@@ -6,6 +6,7 @@ import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import java.rmi.UnexpectedException
+import java.sql.SQLException
 
 @Service
 class ClientService (

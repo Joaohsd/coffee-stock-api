@@ -3,12 +3,52 @@ package com.inatel.coffeestock.model.dto
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
 
 data class StockDTO(
-    @NotNull val _quantity: Int,
-    @NotBlank val _coffeeType: String,
-    @NotNull val _coffeeCupping: Double,
-    @NotBlank val _status: String,
-    @JsonIgnore @NotNull val _clientCpf : String
+    @NotNull private var id: Int,
+    @NotNull private var quantity: Int,
+    @NotBlank private var coffeeType: String,
+    @NotNull private var coffeeCupping: Double,
+    @NotBlank private var status: String,
+    @NotBlank
+    @Size(min = 11, max = 11, message = "CPF: Out of length (min:11 and max:11 characters).")
+    private var clientCpf : String
 ) {
+    fun getId() : Int = id
+
+    fun getQuantity() : Int = quantity
+
+    fun getCoffeeType() : String = coffeeType
+
+    fun getCoffeeCupping() : Double = coffeeCupping
+
+    fun getClientCpf() : String  = clientCpf
+
+    fun getStatus() : String  = status
+
+    // Setters for all properties
+    fun setId(value: Int) {
+        quantity = value
+    }
+
+    fun setQuantity(value: Int) {
+        quantity = value
+    }
+
+    fun setCoffeeType(value: String) {
+        coffeeType = value
+    }
+
+    fun setCoffeeCupping(value: Double) {
+        coffeeCupping = value
+    }
+
+    fun setStatus(value: String) {
+        status = value
+    }
+
+    fun setClientCpf(value: String) {
+        clientCpf = value
+    }
 }

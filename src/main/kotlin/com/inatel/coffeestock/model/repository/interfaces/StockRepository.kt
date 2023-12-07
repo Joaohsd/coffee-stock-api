@@ -4,12 +4,16 @@ interface StockRepository {
 
     fun getStocks() : Collection<Stock>
 
-    fun getStock(id:Long) : Stock
+    fun getStocksFromClient(clientCpf:String) : Collection<Stock>
 
-    fun createStock(newStock:Stock) : Stock
+    fun getStock(id:Int) : Stock?
 
-    fun updateStock(updatedStock:Stock) : Stock
+    fun createStock(newStock:Stock) : Stock?
 
-    fun deleteStock(id:Long) : Unit
+    fun updateStock(updatedStock:Stock) : Stock?
+
+    fun updateStockStatus(id:Int, status:String) : Boolean
+
+    fun deleteStock(id:Int) : Boolean
 
 }

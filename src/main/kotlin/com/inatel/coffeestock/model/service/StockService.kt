@@ -2,20 +2,55 @@ package com.inatel.coffeestock.model.service
 
 import com.inatel.coffeestock.model.entity.Stock
 import com.inatel.coffeestock.model.repository.interfaces.StockRepository
+import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 
 @Service
 class StockService(
-    @Qualifier("mock_stock") private val stockRepository: StockRepository
+    @Qualifier("stock") private val stockRepository: StockRepository
 ){
     fun getStocks() : Collection<Stock> = stockRepository.getStocks()
 
-    fun getStock(id : Long) : Stock = stockRepository.getStock(id)
+    fun getStock(id : Int) : Stock? {
+        return stockRepository.getStock(id)
+                ?: throw NoSuchElementException("Stock with given ${id} does not exist")
+    }
 
-    fun createStock(newStock : Stock) : Stock = stockRepository.createStock(newStock)
+    fun getStocksFromClient(clientCpf:String) : Collection<Stock> = stockRepository.getStocksFromClient(clientCpf)
 
-    fun updateStock(updatedStock : Stock) : Stock = stockRepository.updateStock(updatedStock)
+    fun createStock(newStock : Stock) : Stock? {
+        return stockRepository.createStock(newStock)
+    }
 
-    fun deleteStock(id : Long) : Unit = stockRepository.deleteStock(id)
+    fun updateStock(updatedStock : Stock) : Stock? {
+        if(stockRepository.getStock(updatedStock.getId()) == null){
+            throw NoSuchElementException("Stock with given ${updatedStock.getId()} does not exist")
+        }
+        else{
+            return stockRepository.updateStock(updatedStock)
+        }
+    }
+
+    fun updateStockStatus(stockId: Int, stockStatus: String): Stock? {
+        if(stockRepository.getStock(stockId) == null){
+            throw NoSuchElementException("Stock with given ${stockId} does not exist")
+        }
+        else{
+            if(stockRepository.updateStockStatus(stockId, stockStatus)){
+                return stockRepository.getStock(stockId)
+            }
+        }
+        return null
+    }
+
+    fun deleteStock(id : Int) : Unit {
+        if(stockRepository.getStock(id) == null){
+            throw NoSuchElementException("Stock with given ${id} does not exist")
+        }
+        else{
+            if (stockRepository.deleteStock(id))
+                return Unit
+        }
+    }
 }

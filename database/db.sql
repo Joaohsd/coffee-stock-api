@@ -32,10 +32,11 @@ CREATE TABLE IF NOT EXISTS `coffee`.`client` (
 -- Table `coffee`.`stock`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `coffee`.`stock` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL auto_increment,
   `quantity` INT NOT NULL,
   `coffeeType` VARCHAR(45) NOT NULL,
   `coffeeCupping` DOUBLE NOT NULL,
+  `status` VARCHAR(25) NOT NULL,
   `client_cpf` VARCHAR(14) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_stock_client_idx` (`client_cpf` ASC) VISIBLE,
