@@ -7,15 +7,15 @@ import org.springframework.stereotype.Service
 
 @Service
 class ClientService (
-    @Qualifier("mock_client") private val clientRepository: ClientRepository
+    @Qualifier("client") private val clientRepository: ClientRepository
 ){
     fun getClients() : Collection<Client> = clientRepository.getClients()
 
-    fun getClient(id : Long) : Client = clientRepository.getClient(id)
+    fun getClient(cpf : String) : Client? = clientRepository.getClient(cpf)
 
-    fun createClient(newClient : Client) : Client = clientRepository.createClient(newClient)
+    fun createClient(newClient : Client) : Client? = clientRepository.createClient(newClient)
 
-    fun updateClient(updatedClient : Client) : Client = clientRepository.updateClient(updatedClient)
+    fun updateClient(updatedClient : Client) : Client? = clientRepository.updateClient(updatedClient)
 
-    fun deleteClient(id : Long) : Unit = clientRepository.deleteClient(id)
+    fun deleteClient(cpf : String) : Unit = clientRepository.deleteClient(cpf)
 }

@@ -5,11 +5,11 @@ import com.inatel.coffeestock.model.entity.Client
 interface ClientRepository {
     fun getClients() : Collection<Client>
 
-    fun getClient(id:Long) : Client
+    fun getClient(cpf:String) : Client?
 
-    fun createClient(newClient:Client) : Client
+    fun createClient(newClient:Client) : Client?
 
-    fun updateClient(updatedClient:Client) : Client
+    fun updateClient(updatedClient:Client) : Client?
 
-    fun deleteClient(id:Long) : Unit
+    fun deleteClient(cpf:String) : Unit
 }

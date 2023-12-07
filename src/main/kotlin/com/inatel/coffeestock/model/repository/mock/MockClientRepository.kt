@@ -5,7 +5,7 @@ import com.inatel.coffeestock.model.repository.interfaces.ClientRepository
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
-
+/*
 @Repository("mock_client")
 class MockClientRepository: ClientRepository {
     private val clients = mutableListOf<Client>(
@@ -46,4 +46,4 @@ class MockClientRepository: ClientRepository {
         return Unit
     }
 
-}
+}*/

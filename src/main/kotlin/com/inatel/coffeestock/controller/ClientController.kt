@@ -26,21 +26,23 @@ class ClientController(private val clientService: ClientService) {
     @ResponseStatus(HttpStatus.OK)
     fun getClients() : Collection<Client> = clientService.getClients();
 
-    @GetMapping("/{clientID}")
+    @GetMapping("/{clientCpf}")
     @ResponseStatus(HttpStatus.OK)
-    fun getClient(@PathVariable clientID: Long) = clientService.getClient(clientID);
+    fun getClient(@PathVariable clientCpf: String) = clientService.getClient(clientCpf);
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addClient(@RequestBody client: Client) : Client = clientService.createClient(client);
+    fun addClient(@RequestBody client: Client) : Client? {
+        return clientService.createClient(client);
+    }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    fun updateClient(@RequestBody client: Client) : Client = clientService.updateClient(client);
+    fun updateClient(@RequestBody client: Client) : Client? = clientService.updateClient(client);
 
-    @DeleteMapping("/{clientID}")
+    @DeleteMapping("/{clientCpf}")
     @ResponseStatus(HttpStatus.OK)
-    fun deleteClient(@PathVariable clientID: Long) : Unit = clientService.deleteClient(clientID);
+    fun deleteClient(@PathVariable clientCpf: String) : Unit = clientService.deleteClient(clientCpf);
 
 
 }
