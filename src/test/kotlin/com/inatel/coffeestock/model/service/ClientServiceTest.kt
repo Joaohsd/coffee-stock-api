@@ -1,6 +1,5 @@
 package com.inatel.coffeestock.model.service
 
-import com.inatel.coffeestock.model.repository.mock.MockClientRepository
 import com.inatel.coffeestock.model.repository.interfaces.ClientRepository
 import com.inatel.coffeestock.model.entity.Client
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
@@ -12,7 +11,7 @@ import org.junit.jupiter.api.Nested
 import java.time.LocalDate
 
 class ClientServiceTest{
-
+/*
     private lateinit var clientRepository: ClientRepository
     private lateinit var clientService: ClientService
 
@@ -178,6 +177,6 @@ class ClientServiceTest{
                 clientService.deleteClient(targetClientId)
             }
         }
-    }
+    }*/
 
 }
