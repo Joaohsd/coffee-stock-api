@@ -1,4 +1,4 @@
-package com.inatel.coffeestock.model.repository.mock
+package com.inatel.coffeestock.mock
 
 import com.inatel.coffeestock.model.entity.Stock
 import com.inatel.coffeestock.model.repository.interfaces.StockRepository

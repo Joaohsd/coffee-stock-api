@@ -10,14 +10,14 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
 class StockServiceTest {
-/*
+
     private lateinit var stockRepository: StockRepository
     private lateinit var stockService: StockService
 
     private val _stocks = mutableListOf<Stock>(
-            Stock(11111, 30, "Arabic", 20.0, 123456),
-            Stock(22222, 40, "Arabic", 30.0, 234567),
-            Stock(33333, 50, "Arabic", 40.0, 345678)
+            Stock(11111, 30, "Arabic", 20.0, "ALLOWED","123.456.789-10"),
+            Stock(22222, 40, "Arabic", 30.0, "REFUSED", "999.999.999-99"),
+            Stock(33333, 50, "Arabic", 40.0, "WAITING", "111.111.111-11")
     )
 
     @BeforeEach
@@ -90,8 +90,8 @@ class StockServiceTest {
         @DisplayName("should provide the stock with desired id")
         fun verifyCorrectStockRetrieved() {
             // given
-            val desiredStockID: Long = 11111
-            val desiredStock = Stock(11111, 30, "Arabic", 20.0, 123456)
+            val desiredStockID: Int = 11111
+            val desiredStock = Stock(11111, 30, "Arabic", 20.0, "ALLOWED", "123.456.789-10")
             every { stockRepository.getStock(desiredStockID)} returns _stocks.get(0)
 
             // when
@@ -105,9 +105,8 @@ class StockServiceTest {
         @DisplayName("should throw NoSuchElementException when doesn't find stock id")
         fun verifyIncorrectStockRetrieved() {
             // given
-            val incorrectStockID: Long = 9999
-            every { stockRepository.getStock(incorrectStockID)}
-                    .throws(NoSuchElementException("Could not find a stock with given ID $incorrectStockID"))
+            val incorrectStockID: Int = 99999
+            every { stockRepository.getStock(incorrectStockID)} returns null
 
             // when / then
             assertThrows(NoSuchElementException::class.java){
@@ -124,7 +123,7 @@ class StockServiceTest {
         @DisplayName("should provide the created stock ")
         fun verifyCorrectStockCreated() {
             // given
-            val newStock = Stock(44444, 20, "Arabic", 50.0, 234567)
+            val newStock = Stock(44444, 20, "Arabic", 50.0, "WAITING", "123.456.789-10")
             every { stockRepository.createStock(newStock)} returns newStock
 
             // when
@@ -135,14 +134,14 @@ class StockServiceTest {
         }
 
         @Test
-        @DisplayName("should throw ElementAlreadyExistsException when stock already exists")
+        @DisplayName("should throw NoSuchElementException when client owner of stock does not exist")
         fun verifyIncorrectStockCreated() {
             // given
-            val newStock = Stock(11111, 20, "Arabic", 50.0, 234567)
-            every { stockRepository.createStock(newStock) }.throws(ElementAlreadyExistsException("Stock with given ${newStock.getId()} already exists"))
+            val newStock = Stock(11111, 20, "Arabic", 50.0, "WAITING", "000.000.000-00")
+            every { stockRepository.createStock(newStock) } returns null
 
             // when / then
-            assertThrows(ElementAlreadyExistsException::class.java) {
+            assertThrows(NoSuchElementException::class.java) {
                 stockService.createStock(newStock)
             }
         }
@@ -154,7 +153,9 @@ class StockServiceTest {
         @DisplayName("should provide the updated stock")
         fun verifyCorrectStockUpdated() {
             // given
-            val updatedStock = Stock(44444, 50, "Arabic", 40.0, 123456)
+            val updatedStock = Stock(11111, 40, "Arabic", 20.0, "ALLOWED","123.456.789-10")
+
+            every { stockRepository.getStock(updatedStock.getId())} returns updatedStock
             every { stockRepository.updateStock(updatedStock)} returns updatedStock
 
             // when
@@ -168,8 +169,10 @@ class StockServiceTest {
         @DisplayName("should throw NoSuchElementException when doesn't find stock id")
         fun verifyIncorrectStockUpdated() {
             // given
-            val updatedStock = Stock(9999, 50, "Arabic", 40.0, 123456)
-            every { stockRepository.updateStock(updatedStock)}.throws(NoSuchElementException("Could not find a client with given ID ${updatedStock.getId()}"))
+            val updatedStock = Stock(99999, 30, "Arabic", 20.0, "ALLOWED","123.456.789-10")
+
+            every { stockRepository.getStock(updatedStock.getId())} returns null
+            every { stockRepository.updateStock(updatedStock)} returns null
 
             // when / then
             assertThrows(NoSuchElementException::class.java){
@@ -186,10 +189,11 @@ class StockServiceTest {
         @DisplayName("should provide the deleted stock")
         fun verifyCorrectStockDeleted() {
             // given
-            val targetStockId: Long = 22222
+            val targetStockId: Int = 22222
             val expectedValue = Unit
-            //val deletedStock = Stock(22222, 40, "Arabic", 30.0, 234567)
-            every { stockRepository.deleteStock(targetStockId) } returns Unit
+
+            every { stockRepository.getStock(targetStockId) } returns Stock(22222, 40, "Arabic", 30.0, "REFUSED", "999.999.999-99")
+            every { stockRepository.deleteStock(targetStockId) } returns true
 
             // when
             val returnedValue = stockService.deleteStock(targetStockId)
@@ -202,13 +206,13 @@ class StockServiceTest {
         @DisplayName("should throw NoSuchElementException when doesn't find client id")
         fun verifyIncorrectClientDeleted() {
             // given
-            val targetStockId: Long = 9999
-            every { stockRepository.deleteStock(targetStockId) }.throws(NoSuchElementException("Could not find a stock with given ID ${targetStockId}"))
+            val targetStockId: Int = 99999
+            every { stockRepository.getStock(targetStockId) } returns null
 
             // when / then
             assertThrows(NoSuchElementException::class.java) {
                 stockService.deleteStock(targetStockId)
             }
         }
-    }*/
+    }
 }
