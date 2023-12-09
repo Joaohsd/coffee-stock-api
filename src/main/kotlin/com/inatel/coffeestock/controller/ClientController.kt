@@ -11,7 +11,9 @@ import org.springframework.beans.BeanUtils
 import org.springframework.boot.autoconfigure.integration.IntegrationProperties
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.*
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
@@ -28,6 +30,13 @@ class ClientController(private val clientService: ClientService, private val sto
     fun handleBadRequest(e : ElementAlreadyExistsException) : ResponseEntity<String> =
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message);
 
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleForbiddenRequest(e : MethodArgumentNotValidException) : ResponseEntity<String> =
+            ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.fieldError?.defaultMessage.toString());
+
+    @ExceptionHandler(HttpMessageNotReadableException::class)
+    fun handleForbiddenRequest(e : HttpMessageNotReadableException) : ResponseEntity<String> =
+            ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.message);
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -43,7 +52,7 @@ class ClientController(private val clientService: ClientService, private val sto
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addClient(@RequestBody @Validated clientDTO: ClientDTO) : ResponseEntity<Any> {
+    fun addClient(@Valid @RequestBody clientDTO: ClientDTO) : ResponseEntity<Any> {
         var clientToBeAdded = Client()
 
         BeanUtils.copyProperties(clientDTO, clientToBeAdded)
@@ -57,7 +66,7 @@ class ClientController(private val clientService: ClientService, private val sto
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    fun updateClient(@RequestBody @Validated clientDTO: ClientDTO) : ResponseEntity<Any> {
+    fun updateClient(@Valid @RequestBody clientDTO: ClientDTO) : ResponseEntity<Any> {
         var clientToBeUpdated = Client()
 
         BeanUtils.copyProperties(clientDTO, clientToBeUpdated)

@@ -2,7 +2,6 @@ package com.inatel.coffeestock.model.service
 
 import com.inatel.coffeestock.model.entity.Stock
 import com.inatel.coffeestock.model.repository.interfaces.StockRepository
-import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 
@@ -21,6 +20,7 @@ class StockService(
 
     fun createStock(newStock : Stock) : Stock? {
         return stockRepository.createStock(newStock)
+                ?:throw NoSuchElementException("Cpf ${newStock.getClientCpf()} does not exist")
     }
 
     fun updateStock(updatedStock : Stock) : Stock? {

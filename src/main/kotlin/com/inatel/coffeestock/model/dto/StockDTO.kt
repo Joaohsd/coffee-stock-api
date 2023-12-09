@@ -5,13 +5,18 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
 data class StockDTO(
-    @NotNull private var id: Int,
-    @NotNull private var quantity: Int,
-    @NotBlank private var coffeeType: String,
-    @NotNull private var coffeeCupping: Double,
-    @NotBlank private var status: String,
-    @NotBlank
-    @Size(min = 14, max = 14, message = "CPF: Out of length (min:11 and max:11 characters).")
+    @field:NotNull
+    private var id: Int,
+    @field:NotNull
+    private var quantity: Int,
+    @field:NotBlank
+    private var coffeeType: String,
+    @field:NotNull
+    private var coffeeCupping: Double,
+    @field:NotBlank
+    private var status: String,
+    @field:NotBlank
+    @field:Size(min = 14, max = 14, message = "CPF: Out of length (min:14 and max:14 characters).")
     private var clientCpf : String
 ) {
     fun getId() : Int = id

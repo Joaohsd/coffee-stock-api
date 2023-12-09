@@ -9,7 +9,9 @@ import jakarta.validation.Valid
 import org.springframework.beans.BeanUtils
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -25,6 +27,13 @@ class StockController (private val stockService: StockService){
     fun handleBadRequest(e : ElementAlreadyExistsException) : ResponseEntity<String> =
         ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message);
 
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleForbiddenRequest(e : MethodArgumentNotValidException) : ResponseEntity<String> =
+            ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.fieldError?.defaultMessage.toString());
+
+    @ExceptionHandler(HttpMessageNotReadableException::class)
+    fun handleForbiddenRequest(e : HttpMessageNotReadableException) : ResponseEntity<String> =
+            ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.message);
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

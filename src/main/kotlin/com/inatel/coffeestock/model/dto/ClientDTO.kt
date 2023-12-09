@@ -6,20 +6,20 @@ import jakarta.validation.constraints.Size
 import java.time.LocalDate
 
 data class ClientDTO (
-    @NotBlank
-    @Size(min = 14, max = 14, message = "CPF: Out of length (min:11 and max:11 characters).")
+    @field:NotBlank
+    @field:Size(min = 14, max = 14, message = "CPF: Out of length (min:14 and max:14 characters).")
     private val cpf : String,
-    @NotBlank
+    @field:NotBlank
     private val name: String,
-    @NotBlank
+    @field:NotBlank
     private val birthDate: String,
-    @NotBlank
+    @field:NotBlank
     private val estate: String,
-    @NotBlank
+    @field:NotBlank
     private val email: String,
-    @NotNull
+    @field:NotNull
     private val isAdmin: Boolean,
-    @NotBlank
+    @field:NotBlank
     private val password: String
 ){
     fun getName() : String = name
