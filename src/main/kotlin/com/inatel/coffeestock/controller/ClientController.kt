@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils
 import org.springframework.boot.autoconfigure.integration.IntegrationProperties
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
@@ -42,10 +43,12 @@ class ClientController(private val clientService: ClientService, private val sto
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addClient(@RequestBody @Valid clientDTO: ClientDTO) : ResponseEntity<Any> {
+    fun addClient(@RequestBody @Validated clientDTO: ClientDTO) : ResponseEntity<Any> {
         var clientToBeAdded = Client()
 
         BeanUtils.copyProperties(clientDTO, clientToBeAdded)
+
+        clientToBeAdded.setIsAdmin(clientDTO.isAdmin())
 
         val clientAdded = clientService.createClient(clientToBeAdded)
 
@@ -54,10 +57,12 @@ class ClientController(private val clientService: ClientService, private val sto
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    fun updateClient(@RequestBody clientDTO: ClientDTO) : ResponseEntity<Any> {
+    fun updateClient(@RequestBody @Validated clientDTO: ClientDTO) : ResponseEntity<Any> {
         var clientToBeUpdated = Client()
 
         BeanUtils.copyProperties(clientDTO, clientToBeUpdated)
+
+        clientToBeUpdated.setIsAdmin(clientDTO.isAdmin())
 
         val clientUpdated = clientService.updateClient(clientToBeUpdated)
 

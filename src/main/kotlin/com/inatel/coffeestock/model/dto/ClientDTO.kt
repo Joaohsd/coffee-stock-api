@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 data class ClientDTO (
     @NotBlank
-    @Size(min = 11, max = 11, message = "CPF: Out of length (min:11 and max:11 characters).")
+    @Size(min = 14, max = 14, message = "CPF: Out of length (min:11 and max:11 characters).")
     private val cpf : String,
     @NotBlank
     private val name: String,

@@ -9,6 +9,7 @@ import jakarta.validation.Valid
 import org.springframework.beans.BeanUtils
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -39,7 +40,7 @@ class StockController (private val stockService: StockService){
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addStock(@RequestBody @Valid stockDTO: StockDTO) : ResponseEntity<Any> {
+    fun addStock(@RequestBody @Validated stockDTO: StockDTO) : ResponseEntity<Any> {
         var stockToBeAdded = Stock()
 
         BeanUtils.copyProperties(stockDTO, stockToBeAdded)
@@ -58,7 +59,7 @@ class StockController (private val stockService: StockService){
     }
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    fun updateStockStatus(@RequestBody stockDTO: StockDTO) : ResponseEntity<Any> {
+    fun updateStockStatus(@RequestBody @Validated stockDTO: StockDTO) : ResponseEntity<Any> {
         var stockToBeUpdated = Stock()
 
         BeanUtils.copyProperties(stockDTO, stockToBeUpdated)
