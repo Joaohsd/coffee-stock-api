@@ -2,7 +2,7 @@ name: Coffee Stock CI
 
 on:
   push:
-    branches: [ "main", "develope" ]
+    branches: [ "main", "develope", "feature-db" ]
   pull_request:
     branches: [ "main", "develope" ]
 

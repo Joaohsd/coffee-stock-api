@@ -22,7 +22,6 @@ class MockClientRepository: ClientRepository {
 
     override fun createClient(newClient: Client): Client?{
         clients.add(newClient)
-
         return newClient
     }
 
