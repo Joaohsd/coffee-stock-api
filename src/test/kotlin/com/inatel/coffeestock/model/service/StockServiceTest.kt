@@ -97,6 +97,7 @@ class StockServiceTest {
             // given
             val desiredStockID: Int = 11111
             val desiredStock = Stock(11111, 30, "Arabic", 20.0, "ALLOWED", "123.456.789-10")
+
             every { stockRepository.getStock(desiredStockID)} returns _stocks.get(0)
 
             // when
@@ -111,6 +112,7 @@ class StockServiceTest {
         fun verifyIncorrectStockRetrieved() {
             // given
             val incorrectStockID: Int = 99999
+
             every { stockRepository.getStock(incorrectStockID)} returns null
 
             // when / then
@@ -119,7 +121,49 @@ class StockServiceTest {
             }
         }
     }
-    
+
+    @Nested
+    @DisplayName("Test scenario for GET STOCKS FROM CLIENT")
+    inner class GetStocksFromClient{
+        @Test
+        @DisplayName("should provide correct a list of stocks")
+        fun verifyCorrectStocksRetrieved() {
+            // given
+            val client = Client("123.456.789-10","Fulano Ciclano",  "1999-1-1", "Santa Rita", "fulano@email.com.br", true, "fulano")
+            val stocks = mutableListOf<Stock>(_stocks.get(0))
+
+            every { clientRepository.getClient(client.getCpf())} returns client
+            every { stockRepository.getStocksFromClient(client.getCpf())} returns stocks
+
+            // when
+            val stocksRetrieved = stockService.getStocksFromClient(client.getCpf())
+
+            // then
+            assertAll(
+                    "Stocks",
+                    {
+                        stocks.forEach(
+                                { assertTrue(stocksRetrieved.contains(it)) }
+                        )
+                    }
+            )
+        }
+
+        @Test
+        @DisplayName("should throw NoSuchElementException when doesn't find client with desired cpf")
+        fun verifyIncorrectStocksBecauseOfClient() {
+            // given
+            val client = Client("000.000.000-00","Fulano Ciclano",  "1999-1-1", "Santa Rita", "fulano@email.com.br", true, "fulano")
+
+            every { clientRepository.getClient(client.getCpf())} returns null
+
+            // when / then
+            assertThrows(NoSuchElementException::class.java){
+                stockService.getStocksFromClient(client.getCpf())
+            }
+        }
+    }
+
     @Nested
     @DisplayName("Test scenario for CREATE STOCK")
     inner class CreateStock{
@@ -149,7 +193,6 @@ class StockServiceTest {
             val newStock = Stock(11111, 20, "Arabic", 50.0, "WAITING", client.getCpf())
 
             every { clientRepository.getClient(client.getCpf())} returns null
-            every { stockRepository.createStock(newStock) } returns null
 
             // when / then
             assertThrows(NoSuchElementException::class.java) {
@@ -187,7 +230,6 @@ class StockServiceTest {
 
             every { clientRepository.getClient(client.getCpf())} returns client
             every { stockRepository.getStock(updatedStock.getId())} returns null
-            every { stockRepository.updateStock(updatedStock)} returns null
 
             // when / then
             assertThrows(NoSuchElementException::class.java){
@@ -196,7 +238,7 @@ class StockServiceTest {
         }
 
         @Test
-        @DisplayName("should throw NoSuchElementException when doesn't find stock with desired id")
+        @DisplayName("should throw NoSuchElementException when client owner of stock does not exist")
         fun verifyIncorrectStockUpdatedBecauseOfClient() {
             // given
             val client = Client("000.000.000-00","Fulano Ciclano",  "1999-1-1", "Santa Rita", "fulano@email.com.br", true, "fulano")
@@ -204,11 +246,47 @@ class StockServiceTest {
 
             every { clientRepository.getClient(client.getCpf())} returns null
             every { stockRepository.getStock(updatedStock.getId())} returns updatedStock
-            every { stockRepository.updateStock(updatedStock)} returns null
 
             // when / then
             assertThrows(NoSuchElementException::class.java){
                 stockService.updateStock(updatedStock)
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Test scenario for UPDATE STOCK STATUS")
+    inner class UpdateStockStatus{
+
+        @Test
+        @DisplayName("should provide the updated stock")
+        fun verifyCorrectStockUpdated() {
+            // given
+            val stockId = _stocks.get(2).getId()
+            val stockStatus = "ALLOWED"
+
+            every { stockRepository.getStock(stockId)} returns _stocks.get(2)
+            every { stockRepository.updateStockStatus(stockId, stockStatus)} returns true
+
+            // when
+            val updatedStock = stockService.updateStockStatus(stockId, stockStatus)
+
+            // then
+            assertEquals(_stocks.get(2), updatedStock)
+        }
+
+        @Test
+        @DisplayName("should throw NoSuchElementException when doesn't find stock with desired id")
+        fun verifyIncorrectStockUpdated() {
+            // given
+            val stockId = _stocks.get(2).getId()
+            val stockStatus = "ALLOWED"
+
+            every { stockRepository.getStock(stockId)} returns null
+
+            // when / then
+            assertThrows(NoSuchElementException::class.java){
+                stockService.updateStockStatus(stockId, stockStatus)
             }
         }
     }
@@ -220,10 +298,11 @@ class StockServiceTest {
         @DisplayName("should provide the deleted stock")
         fun verifyCorrectStockDeleted() {
             // given
-            val targetStockId: Int = 22222
+            val stock = Stock(22222, 40, "Arabic", 30.0, "REFUSED", "999.999.999-99")
+            val targetStockId = stock.getId()
             val expectedValue = Unit
 
-            every { stockRepository.getStock(targetStockId) } returns Stock(22222, 40, "Arabic", 30.0, "REFUSED", "999.999.999-99")
+            every { stockRepository.getStock(targetStockId) } returns stock
             every { stockRepository.deleteStock(targetStockId) } returns true
 
             // when
@@ -234,14 +313,17 @@ class StockServiceTest {
         }
 
         @Test
-        @DisplayName("should throw NoSuchElementException when doesn't find client id")
-        fun verifyIncorrectClientDeleted() {
+        @DisplayName("should throw NoSuchElementException when doesn't find stock with desired id")
+        fun verifyIncorrectStockDeleted() {
             // given
-            val targetStockId: Int = 99999
+            val stock = Stock(99999, 40, "Arabic", 30.0, "REFUSED", "999.999.999-99")
+            val targetStockId = stock.getId()
+            val expectedValue = Unit
+
             every { stockRepository.getStock(targetStockId) } returns null
 
-            // when / then
-            assertThrows(NoSuchElementException::class.java) {
+            // when/then
+            assertThrows(NoSuchElementException::class.java){
                 stockService.deleteStock(targetStockId)
             }
         }

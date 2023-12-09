@@ -177,7 +177,7 @@ class StockDAO : DatabaseDAO(), StockRepository {
     }
 
     override fun updateStockStatus(id: Int, status: String): Boolean {
-        var success:Boolean = false
+        var success = false
         connectToDB()
         val sql = "UPDATE stock SET status=? WHERE id=?"
         try {

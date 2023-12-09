@@ -19,7 +19,14 @@ class StockService(
                 ?: throw NoSuchElementException("Stock with given ${id} does not exist")
     }
 
-    fun getStocksFromClient(clientCpf:String) : Collection<Stock> = stockRepository.getStocksFromClient(clientCpf)
+    fun getStocksFromClient(clientCpf:String) : Collection<Stock> {
+        if(clientRepository.getClient(clientCpf) == null){
+            throw NoSuchElementException("Cpf ${clientCpf} does not exist")
+        }
+        else {
+            return stockRepository.getStocksFromClient(clientCpf)
+        }
+    }
 
     fun createStock(newStock : Stock) : Stock? {
         if(clientRepository.getClient(newStock.getClientCpf()) == null){
@@ -34,12 +41,12 @@ class StockService(
         if(stockRepository.getStock(updatedStock.getId()) == null){
             throw NoSuchElementException("Stock with given ${updatedStock.getId()} does not exist")
         }
-        else if(clientRepository.getClient(updatedStock.getClientCpf()) == null){
+
+        if(clientRepository.getClient(updatedStock.getClientCpf()) == null) {
             throw NoSuchElementException("Cpf ${updatedStock.getClientCpf()} does not exist")
         }
-        else{
-            return stockRepository.updateStock(updatedStock)
-        }
+
+        return stockRepository.updateStock(updatedStock)
     }
 
     fun updateStockStatus(stockId: Int, stockStatus: String): Stock? {

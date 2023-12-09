@@ -64,7 +64,7 @@ class ClientServiceTest{
     inner class GetClient{
 
         @Test
-        @DisplayName("should provide the client with desired id")
+        @DisplayName("should provide the client with desired cpf")
         fun verifyCorrectClientRetrieved() {
             // given
             val desiredClientCpf: String = "123.456.789-10"
@@ -78,10 +78,10 @@ class ClientServiceTest{
         }
 
         @Test
-        @DisplayName("should throw NoSuchElementException when doesn't find client id")
+        @DisplayName("should throw NoSuchElementException when doesn't find client cpf")
         fun verifyIncorrectClientRetrieved(){
             // given
-            val incorrectClientCpf: String = "1111"
+            val incorrectClientCpf: String = "unknown"
 
             // when / then
             assertThrows(NoSuchElementException::class.java){
@@ -98,7 +98,7 @@ class ClientServiceTest{
         @DisplayName("should provide the created client")
         fun verifyCorrectClientCreated() {
             // given
-            val newClient = Client("000.000.000-00","Paulo Otávio",  "1999-1-1", "São Paulo", "paulo@email.com.br", true, "paulo")
+            val newClient = Client("222.222.222-22","Paulo Otávio",  "1999-1-1", "São Paulo", "paulo@email.com.br", true, "paulo")
 
             // when
             val returnedClient = clientService.createClient(newClient)
@@ -108,7 +108,7 @@ class ClientServiceTest{
         }
 
         @Test
-        @DisplayName("should throw ElementAlreadyExistsException client already exists")
+        @DisplayName("should throw ElementAlreadyExistsException because client already exists")
         fun verifyIncorrectClientCreated() {
             // given
             val newClient = Client("999.999.999-99", "Ciclano Fulano",  "1996-2-2", "Rancho Alegre", "ciclano@email.com.br", false, "ciclano")
@@ -137,10 +137,10 @@ class ClientServiceTest{
         }
 
         @Test
-        @DisplayName("should throw NoSuchElementException when doesn't find client id")
+        @DisplayName("should throw NoSuchElementException when doesn't find client cpf")
         fun verifyIncorrectClientUpdated() {
             // given
-            val updatedClient = Client("1111","Fulano Beltrano",  "1999-1-1", "Santa Rita", "fulano@email.com.br", true, "fulano")
+            val updatedClient = Client("unknown","Fulano Beltrano",  "1999-1-1", "Santa Rita", "fulano@email.com.br", true, "fulano")
 
             // when / then
             assertThrows(NoSuchElementException::class.java){
@@ -167,10 +167,10 @@ class ClientServiceTest{
         }
 
         @Test
-        @DisplayName("should throw NoSuchElementException when doesn't find client id")
+        @DisplayName("should throw NoSuchElementException when doesn't find client cpf")
         fun verifyIncorrectClientDeleted() {
             // given
-            val targetClientCpf: String = "1111"
+            val targetClientCpf: String = "unknown"
 
             // when / then
             assertThrows(NoSuchElementException::class.java){
