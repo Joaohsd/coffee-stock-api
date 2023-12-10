@@ -1,27 +1,58 @@
 package com.inatel.coffeestock.model.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 
 data class Client(
-    private val _id : Long,
-    private val _name: String,
-    private val _cpf : String,
-    private val _birthDate: LocalDate,
-    private val _estate: String,
-    private val _email: String,
-    private val _password: String
+    private var cpf : String = "",
+    private var name: String = "",
+    private var birthDate: String = "",
+    private var estate: String = "",
+    private var email: String = "",
+    private var isAdmin: Boolean = false,
+    private var password: String = ""
 ){
-    fun getId() : Long = _id
 
-    fun getName() : String = _name
+    fun getName() : String = name
 
-    fun getCpf() : String = _cpf
+    fun getCpf() : String = cpf
 
-    fun getBirthDate() : LocalDate = _birthDate
+    fun getBirthDate() : String = birthDate
 
-    fun getEstate() : String  = _estate
+    fun getEstate() : String  = estate
 
-    fun getEmail() : String = _email
+    fun getEmail() : String = email
 
-    fun getPassword() : String = _password
+    fun getPassword() : String = password
+
+    fun isAdmin() : Boolean = isAdmin
+
+    // Setters for all properties
+    fun setCpf(value: String) {
+        cpf = value
+    }
+
+    fun setName(value: String) {
+        name = value
+    }
+
+    fun setBirthDate(value: String) {
+        birthDate = value
+    }
+
+    fun setEstate(value: String) {
+        estate = value
+    }
+
+    fun setEmail(value: String) {
+        email = value
+    }
+
+    fun setIsAdmin(value: Boolean) {
+        isAdmin = value
+    }
+
+    fun setPassword(value: String) {
+        password = value
+    }
 }
