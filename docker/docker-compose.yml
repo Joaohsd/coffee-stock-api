@@ -28,3 +28,15 @@ services:
     restart: always
     ports:
       - 8080:8080
+  api_coffee:
+    image: coffee
+    ports:
+      - '8181:9000'
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: coffee
+      DB_USER: root
+      DB_PASSWORD: root

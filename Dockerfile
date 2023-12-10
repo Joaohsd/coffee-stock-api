@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 COPY build.gradle.kts ./
 COPY settings.gradle.kts ./
 COPY src/main/kotlin ./src/main/kotlin
+COPY src/main/resources ./src/main/resources
 COPY gradle ./gradle
 COPY gradlew ./
 
