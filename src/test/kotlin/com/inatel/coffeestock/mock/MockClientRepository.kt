@@ -26,7 +26,7 @@ class MockClientRepository: ClientRepository {
     }
 
     override fun updateClient(updatedClient: Client): Client? {
-        clients.remove(updatedClient)
+        clients.remove(clients.first { it.getCpf() == updatedClient.getCpf()})
         clients.add(updatedClient)
         return updatedClient
     }
