@@ -12,7 +12,7 @@ abstract class DatabaseDAO(){
     val _database = "coffee"
     val _user = "root"
     val _password = "root"
-    val _url = "jdbc:mysql://localhost:3306/$_database?useTimezone=true&" +
+    val _url = "jdbc:mysql://db:3306/$_database?useTimezone=true&" +
             "serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
 
     public fun connectToDB() {
