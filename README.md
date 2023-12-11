@@ -1,5 +1,3 @@
-Certamente, aqui estão os demais títulos e sub-títulos do README com emojis adicionados:
-
 [![Kotlin CI with Gradle](https://github.com/Joaohsd/coffee-stock-api/actions/workflows/gradle.yml/badge.svg)](https://github.com/Joaohsd/coffee-stock-api/actions/workflows/gradle.yml)
 
 # Coffe Stock API ☕
