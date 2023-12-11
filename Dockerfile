@@ -21,7 +21,7 @@ WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/build/libs/coffeestock-0.0.1-SNAPSHOT.jar .
 
 # Expose the port on which your application will run (if applicable)
-EXPOSE 8080
+EXPOSE 9000
 
 # Define the command to run your application
 CMD ["java", "-jar", "coffeestock-0.0.1-SNAPSHOT.jar"]
