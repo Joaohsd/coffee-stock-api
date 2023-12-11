@@ -73,7 +73,7 @@ java -jar build/libs/coffeestock-0.0.1-SNAPSHOT.jar
 ```
 
 ### Com Docker
-A utilização do docker facilita o processo de execução da aplicação, visto que por meio das imagens a seguir e o `docker-compose`, podemos gerenciar os containers da nossa aplicação. Cada imagem contem uma dependência conforme apresentado na seção de execução `Sem Docker`.
+A utilização do docker facilita o processo de execução da aplicação, visto que por meio das imagens a seguir e o `docker-compose`, podemos gerenciar os containers da nossa aplicação. Cada imagem contem uma dependência conforme apresentado na seção de execução **Sem Docker**.
 
 *   [MySQL](https://hub.docker.com/_/mysql) - Container para o Banco de Dados da aplicação;
 *   [API](https://hub.docker.com/r/fernagata/coffee/tags) - Container para a aplicação;
@@ -107,7 +107,7 @@ Para acessar a interface do Swagger (depois de executar a aplicação), vá para
 
 ![Página do Swagger](images/swagger.png)
 
-Esta página é uma **documentação** da nossa API, a qual apresenta todos os `recursos` e seus respectivos `endpoints`. Aliado a isso, também é possível realizar testes manuais, como: adicionar um cliente, atualizar um cliente, adicionar um estoque, remover um estoque, entre outros.
+Esta página é uma **documentação** da nossa API, a qual apresenta todos os **recursos** e seus respectivos **endpoints**. Aliado a isso, também é possível realizar testes manuais, como: adicionar um cliente, atualizar um cliente, adicionar um estoque, remover um estoque, entre outros.
 
 ## Integrantes
 
