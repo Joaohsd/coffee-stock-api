@@ -1,11 +1,13 @@
 package com.inatel.coffeestock.model.dto
 
+import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
 data class StockDTO(
     @field:NotNull
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private var id: Int,
     @field:NotNull
     private var quantity: Int,
