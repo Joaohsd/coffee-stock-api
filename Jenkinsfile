@@ -19,10 +19,28 @@ pipeline {
 
         stage('Test'){
 
-            steps {
-                echo 'Testing...'
-                sh 'make run-test'
-                archiveArtifacts 'reports/'
+            parallel {
+                stage('Unit Tests') {
+
+                    steps {
+                        echo 'Unit tests...'
+                        sh './gradlew clean test'
+                        archiveArtifacts 'build/reports/tests/test'
+                    }
+
+                }
+                stage('Integration Tests') {
+
+                    steps {
+                        echo 'Integration build...'
+                        sh '''
+                            cd tests/
+                            ./node_modules/.bin/cypress run --spec 'cypress/api/**/' --browser chrome
+                           '''
+                        archiveArtifacts 'tests/cypress/reports/html'
+                    }
+
+                }
             }
 
         }
@@ -31,8 +49,8 @@ pipeline {
 
             steps {
                 echo 'Building...'
-                sh 'make run-build'
-                archiveArtifacts 'build/dist/'
+                sh './gradlew clean build'
+                archiveArtifacts 'build/libs/'
             }
 
         }
