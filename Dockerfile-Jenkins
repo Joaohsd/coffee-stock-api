@@ -1,15 +1,6 @@
 # Define nossa imagem base
 FROM jenkins/jenkins:lts-jdk17
 
-# Create variable to specify python version
-ARG PYTHON_VERSION=3.10.12
-
-# Create variable to specify python version
-ENV PYTHON_PREFIX=/usr
-
-# Set environment variables
-ENV NODE_VERSION=v18.5.0
-
 # Define user inside container
 USER root
 
