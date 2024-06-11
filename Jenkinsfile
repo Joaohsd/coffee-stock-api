@@ -12,7 +12,7 @@ pipeline {
 
             steps{
                 echo 'Setting up tests...'
-                sh 'cd tests/ && npm i'
+                sh 'make run-setup'
             }
 
         }
@@ -24,8 +24,7 @@ pipeline {
 
                     steps {
                         echo 'Unit tests...'
-                        sh './gradlew clean test'
-                        sh 'ls'
+                        sh 'make run-unit-tests'
                         archiveArtifacts 'build/reports/tests/test/'
                     }
 
@@ -34,11 +33,7 @@ pipeline {
 
                     steps {
                         echo 'Integration build...'
-                        sh '''
-                            cd tests/
-                            ./node_modules/.bin/cypress install
-                            ./node_modules/.bin/cypress run --spec 'cypress/api/**/' --browser electron
-                           '''
+                        sh 'make run-integration-tests'
                         archiveArtifacts 'tests/cypress/reports/html/'
                     }
 
@@ -51,7 +46,7 @@ pipeline {
 
             steps {
                 echo 'Building...'
-                sh './gradlew clean build'
+                sh 'make run-build'
                 archiveArtifacts 'build/libs/'
             }
 
