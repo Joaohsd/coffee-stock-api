@@ -1,4 +1,4 @@
-# Define nossa imagem base
+# Define our base image
 FROM jenkins/jenkins:lts-jdk17
 
 # Define user inside container
@@ -38,7 +38,7 @@ RUN node -v
 # Reset to root directory
 WORKDIR /
 
-# Limpa arquivos baixados com apt-get
+# Erase downloaded archive files
 RUN apt-get clean
 
 # Define user inside container
