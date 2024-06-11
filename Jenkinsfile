@@ -37,7 +37,7 @@ pipeline {
                         sh '''
                             cd tests/
                             ./node_modules/.bin/cypress install
-                            ./node_modules/.bin/cypress run --spec 'cypress/api/**/' --browser chrome
+                            ./node_modules/.bin/cypress run --spec 'cypress/api/**/' --browser electron
                            '''
                         archiveArtifacts 'tests/cypress/reports/html/'
                     }
