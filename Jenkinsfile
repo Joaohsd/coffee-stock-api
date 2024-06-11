@@ -26,7 +26,7 @@ pipeline {
                         echo 'Unit tests...'
                         sh './gradlew clean test'
                         sh 'ls'
-                        archiveArtifacts 'build/reports/tests/test'
+                        archiveArtifacts './build/reports/tests/test'
                     }
 
                 }
@@ -38,7 +38,7 @@ pipeline {
                             cd tests/
                             ./node_modules/.bin/cypress run --spec 'cypress/api/**/' --browser chrome
                            '''
-                        archiveArtifacts 'tests/cypress/reports/html'
+                        archiveArtifacts './tests/cypress/reports/html'
                     }
 
                 }
