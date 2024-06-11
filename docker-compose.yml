@@ -33,9 +33,7 @@ services:
       - 8081:8080
 
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile-API
+    image: joaohsd/coffee-stock:latest
     ports:
       - 9000:9000
     depends_on:
