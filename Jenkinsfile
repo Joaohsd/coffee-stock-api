@@ -35,10 +35,10 @@ pipeline {
                     steps {
                         echo 'Integration build...'
                         sh '''
-                            cd tests/
+                            cd tests/ &&
                             ./node_modules/.bin/cypress run --spec 'cypress/api/**/' --browser chrome
                            '''
-                        archiveArtifacts './tests/cypress/reports/html'
+                        archiveArtifacts 'tests/cypress/reports/html/'
                     }
 
                 }
