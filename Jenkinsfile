@@ -26,7 +26,7 @@ pipeline {
                         echo 'Unit tests...'
                         sh './gradlew clean test'
                         sh 'ls'
-                        archiveArtifacts 'build/reports/tests/test'
+                        archiveArtifacts 'build/reports/tests/test/'
                     }
 
                 }
