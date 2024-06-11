@@ -12,8 +12,7 @@ pipeline {
 
             steps{
                 echo 'Setting up tests...'
-                sh 'cd tests/'
-                sh 'npm i'
+                sh 'cd tests/ && npm i'
             }
 
         }
