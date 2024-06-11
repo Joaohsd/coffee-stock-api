@@ -6,7 +6,7 @@ run-unit-test:
 	chmod +x scripts/test/unit-test.sh
 	./scripts/test/unit-test.sh
 
-run-unit-test:
+run-integration-test:
 	chmod +x scripts/test/integration-test.sh
 	./scripts/test/integration-test.sh
 

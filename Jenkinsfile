@@ -24,7 +24,7 @@ pipeline {
 
                     steps {
                         echo 'Unit tests...'
-                        sh 'make run-unit-tests'
+                        sh 'make run-unit-test'
                         archiveArtifacts 'build/reports/tests/test/'
                     }
 
@@ -33,7 +33,7 @@ pipeline {
 
                     steps {
                         echo 'Integration build...'
-                        sh 'make run-integration-tests'
+                        sh 'make run-integration-test'
                         archiveArtifacts 'tests/cypress/reports/html/'
                     }
 
