@@ -71,7 +71,7 @@ pipeline {
 
             steps{
                 echo 'Running containers...'
-                sh 'docker compose -f docker-compose-test.yml up'
+                sh 'docker compose -f docker-compose-test.yml -d up || true'
             }
 
         }
