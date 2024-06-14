@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile-Jenkins
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - jenkins_configuration:/var/jenkins_home
+
+volumes:
+  jenkins_configuration:
