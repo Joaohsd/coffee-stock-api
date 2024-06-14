@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:8.4.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'coffee'
+      MYSQL_ROOT_PASSWORD: 'root'
+    volumes:
+      - ./my-db:/var/lib/mysql
+      - ./schema/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - 3306:3306
+
+  api:
+    image: coffee-image:latest
+    ports:
+      - 9000:9000
+    depends_on:
+      - db

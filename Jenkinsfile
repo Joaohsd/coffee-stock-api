@@ -17,27 +17,12 @@ pipeline {
 
         }
 
-        stage('Test'){
+        stage('Unit Test'){
 
-            parallel {
-                stage('Unit Tests') {
-
-                    steps {
-                        echo 'Unit tests...'
-                        sh 'make run-unit-test'
-                        archiveArtifacts 'build/reports/tests/test/'
-                    }
-
-                }
-                stage('Integration Tests') {
-
-                    steps {
-                        echo 'Integration build...'
-                        sh 'make run-integration-test'
-                        archiveArtifacts 'tests/cypress/reports/html/'
-                    }
-
-                }
+            steps {
+                echo 'Unit tests...'
+                sh 'make run-unit-test'
+                archiveArtifacts 'build/reports/tests/test/'
             }
 
         }
@@ -73,5 +58,46 @@ pipeline {
             }
         }
 
+        stage('Docker Build') {
+
+            steps{
+                echo 'Building docker image...'
+                sh 'docker build -t coffee-image -f Dockerfile-API .'
+            }
+
+        }
+
+        stage('Docker Run API') {
+
+            steps{
+                echo 'Running containers...'
+                sh 'docker compose -f docker-compose-test.yml up'
+            }
+
+        }
+
+        stage('API Integration Tests') {
+
+            steps {
+                echo 'API Integration tests...'
+                sh 'make run-integration-test'
+                archiveArtifacts 'tests/cypress/reports/html/'
+            }
+
+        }
+
+    }
+
+    post {
+        always {
+            script {
+                echo 'Cleaning up...'
+                // Stop containers
+                sh 'docker compose down'
+                // Remove all images
+                sh 'docker rmi -f mysql:8.4.0'
+                sh 'docker rmi -f coffee-image:latest'
+            }
+        }
     }
 }
