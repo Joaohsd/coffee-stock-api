@@ -5,6 +5,8 @@ import com.inatel.coffeestock.model.entity.Client
 import com.inatel.coffeestock.model.service.ClientService
 import com.inatel.coffeestock.model.service.StockService
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.beans.BeanUtils
@@ -39,19 +41,16 @@ class ClientController(private val clientService: ClientService, private val sto
             ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.message);
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     fun getClients() : ResponseEntity<Any>{
         return ResponseEntity.status(HttpStatus.OK).body(clientService.getClients())
     }
 
     @GetMapping("/{clientCpf}")
-    @ResponseStatus(HttpStatus.OK)
     fun getClient(@PathVariable clientCpf: String) : ResponseEntity<Any>{
         return ResponseEntity.status(HttpStatus.OK).body(clientService.getClient(clientCpf))
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     fun addClient(@Valid @RequestBody clientDTO: ClientDTO) : ResponseEntity<Any> {
         var clientToBeAdded = Client()
 
@@ -65,7 +64,6 @@ class ClientController(private val clientService: ClientService, private val sto
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.OK)
     fun updateClient(@Valid @RequestBody clientDTO: ClientDTO) : ResponseEntity<Any> {
         var clientToBeUpdated = Client()
 
@@ -79,7 +77,6 @@ class ClientController(private val clientService: ClientService, private val sto
     }
 
     @DeleteMapping("/{clientCpf}")
-    @ResponseStatus(HttpStatus.OK)
     fun deleteClient(@PathVariable clientCpf: String) : ResponseEntity<Any> {
         val clientDeleted = clientService.deleteClient(clientCpf)
 
@@ -87,7 +84,6 @@ class ClientController(private val clientService: ClientService, private val sto
     }
 
     @GetMapping("/{clientCpf}/stocks")
-    @ResponseStatus(HttpStatus.OK)
     fun getStocksFromClient(@PathVariable clientCpf: String) : ResponseEntity<Any>{
         return ResponseEntity.status(HttpStatus.OK).body(stockService.getStocksFromClient(clientCpf))
     }

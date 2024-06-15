@@ -36,19 +36,16 @@ class StockController (private val stockService: StockService){
             ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.message);
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     fun getStocks() : ResponseEntity<Any>{
         return ResponseEntity.status(HttpStatus.OK).body(stockService.getStocks())
     }
 
     @GetMapping("/{stockId}")
-    @ResponseStatus(HttpStatus.OK)
     fun getStock(@PathVariable stockId: Int) : ResponseEntity<Any>{
         return ResponseEntity.status(HttpStatus.OK).body(stockService.getStock(stockId))
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     fun addStock(@RequestBody @Validated stockDTO: StockDTO) : ResponseEntity<Any> {
         var stockToBeAdded = Stock()
 
@@ -60,14 +57,12 @@ class StockController (private val stockService: StockService){
     }
 
     @PutMapping("/{stockId}/status/{stockStatus}")
-    @ResponseStatus(HttpStatus.OK)
     fun updateStockStatus(@PathVariable stockId: Int, @PathVariable stockStatus: String) : ResponseEntity<Any> {
         val stockUpdated = stockService.updateStockStatus(stockId, stockStatus)
 
         return ResponseEntity.status(HttpStatus.OK).body(stockUpdated);
     }
     @PutMapping
-    @ResponseStatus(HttpStatus.OK)
     fun updateStockStatus(@RequestBody @Validated stockDTO: StockDTO) : ResponseEntity<Any> {
         var stockToBeUpdated = Stock()
 
@@ -79,7 +74,6 @@ class StockController (private val stockService: StockService){
     }
 
     @DeleteMapping("/{stockId}")
-    @ResponseStatus(HttpStatus.OK)
     fun deleteStock(@PathVariable stockId: Int) : ResponseEntity<Any> {
         val stockDeleted = stockService.deleteStock(stockId)
 
