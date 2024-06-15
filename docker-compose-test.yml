@@ -12,8 +12,6 @@ services:
       - ./schema/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
       - 3306:3306
-    networks:
-      - mynetwork
 
   api:
     image: coffee-image:latest
@@ -21,9 +19,3 @@ services:
       - 9000:9000
     depends_on:
       - db
-    networks:
-      - mynetwork
-
-networks:
-  mynetwork:
-    driver: bridge
