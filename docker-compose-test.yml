@@ -9,7 +9,7 @@ services:
       MYSQL_DATABASE: 'coffee'
       MYSQL_ROOT_PASSWORD: 'root'
     volumes:
-      - my-db:/var/lib/mysql
+      - ./my-db:/var/lib/mysql
       - ./schema/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
       - 3306:3306
@@ -21,6 +21,3 @@ services:
       - 9000:9000
     depends_on:
       - db
-
-volumes:
-  my-db:
