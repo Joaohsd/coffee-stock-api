@@ -27,7 +27,7 @@ data class ClientDTO (
     @Schema(example = "false", required = true)
     private val isAdmin: Boolean,
     @field:NotBlank
-    @Schema(example = "fulanopassword", required = true)
+    @Schema(example = "fulanopassword", accessMode = Schema.AccessMode.WRITE_ONLY, required = true)
     private val password: String
 ){
     fun getName() : String = name
