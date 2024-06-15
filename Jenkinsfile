@@ -72,7 +72,7 @@ pipeline {
             steps{
                 echo 'Running containers...'
                 sh 'docker compose -f docker-compose-test.yml up -d'
-                sleep 20
+                sh 'sleep 20'
             }
 
         }
