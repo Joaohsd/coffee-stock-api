@@ -70,7 +70,7 @@ pipeline {
         stage('Docker Run API') {
 
             steps{
-                echo 'Copy shcema.sql to shared-volume'
+                echo 'Copy schema.sql to shared-volume'
                 sh 'docker run --rm -v shared-volume:/shared -v $(pwd)/schema:/source busybox cp /source/schema.sql /shared/schema.sql'
                 echo 'Running containers...'
                 sh 'docker compose -f docker-compose-test.yml up -d'
@@ -108,6 +108,7 @@ pipeline {
                 sh 'docker network disconnect myNetwork jenkins'
                 sh 'docker network rm myNetwork'
                 sh 'docker volume rm my-db'
+                sh 'docker volume rm shared-volume'
             }
         }
     }
