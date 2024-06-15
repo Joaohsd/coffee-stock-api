@@ -71,7 +71,7 @@ pipeline {
 
             steps{
                 echo 'Copy schema.sql to shared-volume'
-                sh 'docker run --rm -v shared-volume:/shared -v $(pwd)/schema:/source busybox cp /source/schema.sql /shared/schema.sql'
+                sh 'docker run --rm -v shared-volume:/shared -v $(pwd)/schema:/source alpine cp /source/schema.sql /shared/schema.sql'
                 echo 'Running containers...'
                 sh 'docker compose -f docker-compose-test.yml up -d'
                 sh 'sleep 20'
