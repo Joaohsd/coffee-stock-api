@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'root'
     volumes:
       - my-db:/var/lib/mysql
-      - ./schema/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - shared-volume:/docker-entrypoint-initdb.d/
     ports:
       - 3306:3306
 
@@ -24,3 +24,4 @@ services:
 
 volumes:
   my-db:
+  shared-volume:

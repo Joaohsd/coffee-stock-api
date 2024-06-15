@@ -70,6 +70,8 @@ pipeline {
         stage('Docker Run API') {
 
             steps{
+                echo 'Copy shcema.sql to shared-volume'
+                sh 'docker run --rm -v shared-volume:/shared -v $(pwd)/schema:/source busybox cp /source/schema.sql /shared/schema.sql'
                 echo 'Running containers...'
                 sh 'docker compose -f docker-compose-test.yml up -d'
                 sh 'sleep 20'
@@ -99,7 +101,7 @@ pipeline {
             script {
                 echo 'Cleaning up...'
                 // Stop containers
-                sh 'docker compose down'
+                sh 'docker-compose -f docker-compose-test.yml down'
                 // Remove all images
                 sh 'docker rmi -f mysql:8.4.0'
                 sh 'docker rmi -f coffee-image:latest'
