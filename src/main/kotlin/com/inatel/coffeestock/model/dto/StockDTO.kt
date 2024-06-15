@@ -7,23 +7,23 @@ import jakarta.validation.constraints.Size
 
 data class StockDTO(
     @field:NotNull
-    @Schema(name = "Stock id", example = "1", accessMode = Schema.AccessMode.READ_ONLY,
+    @Schema(example = "1", accessMode = Schema.AccessMode.READ_ONLY,
             required = false)
     private var id: Int,
     @field:NotNull
-    @Schema(name = "Stock quantity", example = "10", required = true)
+    @Schema(example = "10", required = true)
     private var quantity: Int,
     @field:NotBlank
-    @Schema(name = "Stock type", example = "Arabic", required = true)
+    @Schema(example = "Arabic", required = true)
     private var coffeeType: String,
     @field:NotNull
-    @Schema(name = "Stock cupping", example = "20", required = true)
+    @Schema(example = "20", required = true)
     private var coffeeCupping: Double,
     @field:NotBlank
-    @Schema(name = "Stock status", example = "Available", required = true)
+    @Schema(example = "Available", required = true)
     private var status: String,
     @field:NotBlank
-    @Schema(name = "Stock owner CPF", example = "123.456.789-10", required = true)
+    @Schema(example = "123.456.789-10", required = true)
     @field:Size(min = 14, max = 14, message = "CPF: Out of length (min:14 and max:14 characters).")
     private var clientCpf : String
 ) {
