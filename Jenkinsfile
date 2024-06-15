@@ -76,6 +76,7 @@ pipeline {
                 sh 'docker network create myNetwork'
                 sh 'docker network connect myNetwork db'
                 sh 'docker network connect myNetwork api'
+                sh 'docker network connect myNetwork jenkins'
                 sh 'sleep 5'
             }
 
