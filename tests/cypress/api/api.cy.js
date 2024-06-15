@@ -1,6 +1,6 @@
 var HttpStatus = require("http-status-codes")
 
-const baseUrl = "http://localhost:9000/api"
+const baseUrl = "http://api:9000/api"
 
 const clientCpf = "111.111.111-11"
 
