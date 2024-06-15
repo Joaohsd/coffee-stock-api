@@ -103,7 +103,9 @@ pipeline {
                 // Remove all images
                 sh 'docker rmi -f mysql:8.4.0'
                 sh 'docker rmi -f coffee-image:latest'
+                sh 'docker network disconnect myNetwork jenkins'
                 sh 'docker network rm myNetwork'
+                sh 'docker volume rm my-db'
             }
         }
     }
