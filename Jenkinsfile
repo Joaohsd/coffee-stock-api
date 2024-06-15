@@ -100,15 +100,18 @@ pipeline {
         always {
             script {
                 echo 'Cleaning up...'
+                // Remove network created
+                sh 'docker network disconnect myNetwork jenkins'
+                sh 'docker network disconnect myNetwork api'
+                sh 'docker network disconnect myNetwork db'
+                sh 'docker network rm myNetwork'
                 // Stop containers
                 sh 'docker-compose -f docker-compose-test.yml down'
                 // Remove all images
                 sh 'docker rmi -f mysql:8.4.0'
                 sh 'docker rmi -f coffee-image:latest'
-                sh 'docker network disconnect myNetwork jenkins'
-                sh 'docker network rm myNetwork'
-                sh 'docker volume rm my-db'
-                sh 'docker volume rm shared-volume'
+                // Remove volumes
+                sh 'docker volume rm -f my-db'
             }
         }
     }

@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'root'
     volumes:
       - my-db:/var/lib/mysql
-      - shared-volume:/docker-entrypoint-initdb.d/
+      - ~/workspace/coffee-stock-api/schema/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
       - 3306:3306
 
@@ -24,4 +24,3 @@ services:
 
 volumes:
   my-db:
-  shared-volume:
