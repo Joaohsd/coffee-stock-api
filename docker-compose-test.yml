@@ -13,7 +13,7 @@ services:
     ports:
       - 3306:3306
     networks:
-      - mynetwork
+      - testnetwork
 
   api:
     image: coffee-image:latest
@@ -22,9 +22,9 @@ services:
     depends_on:
       - db
     networks:
-      - mynetwork
+      - testnetwork
 
 networks:
-  mynetwork:
-    name: localhost
+  testnetwork:
+    name: mynetwork
     external: true
