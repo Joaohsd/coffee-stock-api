@@ -104,7 +104,10 @@ pipeline {
                 sh 'docker network disconnect myNetwork db'
                 sh 'docker network rm myNetwork'
                 // Stop containers
-                sh 'docker-compose -f docker-compose-test.yml down'
+                sh 'docker stop api'
+                sh 'docker stop db'
+                sh 'docker rm api'
+                sh 'docker rm db'
                 // Remove all images
                 sh 'docker rmi -f mysql:8.4.0'
                 sh 'docker rmi -f coffee-image:latest'
