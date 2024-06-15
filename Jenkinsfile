@@ -73,6 +73,10 @@ pipeline {
                 echo 'Running containers...'
                 sh 'docker compose -f docker-compose-test.yml up -d'
                 sh 'sleep 20'
+                sh 'docker network create myNetwork'
+                sh 'docker network connect myNetwork db'
+                sh 'docker network connect myNetwork api'
+                sh 'sleep 5'
             }
 
         }
@@ -98,6 +102,7 @@ pipeline {
                 // Remove all images
                 sh 'docker rmi -f mysql:8.4.0'
                 sh 'docker rmi -f coffee-image:latest'
+                sh 'docker network rm myNetwork'
             }
         }
     }

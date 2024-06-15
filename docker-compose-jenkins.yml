@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-Jenkins
+    container_name: jenkins
     privileged: true
     user: root
     ports:
