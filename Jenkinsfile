@@ -122,6 +122,7 @@ pipeline {
                 // Remove all images
                 sh 'docker rmi -f mysql:8.4.0'
                 sh 'docker rmi -f coffee-image:latest'
+                sh 'docker rmi -f joaohsd/coffee-stock:latest'
                 // Remove volumes
                 sh 'docker volume rm -f my-db'
             }
