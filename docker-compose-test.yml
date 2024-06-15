@@ -27,4 +27,3 @@ services:
 networks:
   testnetwork:
     name: mynetwork
-    driver: bridge
