@@ -4,6 +4,8 @@ pipeline {
 
     environment {
         EMAIL_DEST='joaohsdelfino@gmail.com'
+        DOCKERHUB_REPO='joaohsd/coffee-stock'
+        DOCKERHUB_CREDS=credentials('bf1a5149-d813-447a-b842-8f7d320dafff')
     }
 
     stages {
@@ -90,6 +92,15 @@ pipeline {
                 archiveArtifacts 'tests/cypress/reports/html/'
             }
 
+        }
+
+        stage('Docker Push to DockerHub') {
+            steps {
+                echo 'Pushing Docker image to DockerHub...'
+                sh "echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin"
+                sh "docker tag coffee-image:latest $DOCKERHUB_REPO:latest"
+                sh "docker push $DOCKERHUB_REPO:latest"
+            }
         }
 
     }
