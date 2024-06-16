@@ -45,7 +45,9 @@ pipeline {
 
                     steps {
                         echo 'Notifying tests...'
-                        sh 'make run-notify-test'
+                        mail to: "$EMAIL_DEST",
+                             subject: "Tests: ${currentBuild.fullDisplayName}",
+                             body: "Successfully running unit tests with ${env.BUILD_URL}"
                     }
 
                 }
@@ -53,38 +55,25 @@ pipeline {
 
                     steps {
                         echo 'Notifying build...'
-                        sh 'make run-notify-build'
+                        mail to: "$EMAIL_DEST",
+                             subject: "Build: ${currentBuild.fullDisplayName}",
+                             body: "Successfully building with ${env.BUILD_URL}"
                     }
 
                 }
             }
         }
 
-        stage('Docker Build') {
+        stage('Docker Build and Run') {
 
             steps{
-                echo 'Building docker image...'
-                sh 'docker build -t coffee-image -f Dockerfile-API .'
+                echo 'Building and running docker containers...'
+                sh 'make run-docker-build-run'
             }
 
         }
 
-        stage('Docker Run API') {
-
-            steps{
-                echo 'Running containers...'
-                sh 'docker compose -f docker-compose-test.yml up -d'
-                sh 'sleep 20'
-                sh 'docker network create myNetwork'
-                sh 'docker network connect myNetwork db'
-                sh 'docker network connect myNetwork api'
-                sh 'docker network connect myNetwork jenkins'
-                sh 'sleep 5'
-            }
-
-        }
-
-        stage('API Integration Tests') {
+        stage('API Tests') {
 
             steps {
                 echo 'API Integration tests...'
@@ -94,13 +83,24 @@ pipeline {
 
         }
 
+        stage('Notification') {
+
+            steps {
+                echo 'Notifying api tests...'
+                mail to: "$EMAIL_DEST",
+                     subject: "Build: ${currentBuild.fullDisplayName}",
+                     body: "Successfully running api integration tests with ${env.BUILD_URL}"
+            }
+
+        }
+
         stage('Docker Push to DockerHub') {
+
             steps {
                 echo 'Pushing Docker image to DockerHub...'
-                sh "echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin"
-                sh "docker tag coffee-image:latest $DOCKERHUB_REPO:latest"
-                sh "docker push $DOCKERHUB_REPO:latest"
+                sh 'make run-docker-push'
             }
+
         }
 
     }
@@ -109,22 +109,7 @@ pipeline {
         always {
             script {
                 echo 'Cleaning up...'
-                // Remove network created
-                sh 'docker network disconnect myNetwork jenkins'
-                sh 'docker network disconnect myNetwork api'
-                sh 'docker network disconnect myNetwork db'
-                sh 'docker network rm myNetwork'
-                // Stop containers
-                sh 'docker stop api'
-                sh 'docker stop db'
-                sh 'docker rm api'
-                sh 'docker rm db'
-                // Remove all images
-                sh 'docker rmi -f mysql:8.4.0'
-                sh 'docker rmi -f coffee-image:latest'
-                sh 'docker rmi -f joaohsd/coffee-stock:latest'
-                // Remove volumes
-                sh 'docker volume rm -f my-db'
+                sh 'make run-docker-clean'
             }
         }
     }
