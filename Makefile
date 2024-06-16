@@ -21,15 +21,3 @@ run-notify-test:
 run-notify-build:
     chmod +x scripts/notify/notify_build.sh
     ./scripts/notify/notify_build.sh
-
-run-docker-build-run:
-    chmod +x scripts/docker/build-run.sh
-    ./scripts/docker/build-run.sh
-
-run-docker-push:
-    chmod +x scripts/docker/push.sh
-    ./scripts/docker/push.sh
-
-run-docker-clean:
-    chmod +x scripts/docker/clean.sh
-    ./scripts/docker/clean.sh
