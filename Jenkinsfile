@@ -63,8 +63,16 @@ pipeline {
         stage('Docker Build and Run') {
 
             steps{
-                echo 'Building and running docker containers...'
-                sh 'make run-docker-build-run'
+                echo 'Building docker image...'
+                sh 'docker build -t coffee-image -f Dockerfile-API .'
+                echo 'Running containers...'
+                sh 'docker compose -f docker-compose-test.yml up -d'
+                sh 'sleep 20'
+                sh 'docker network create myNetwork'
+                sh 'docker network connect myNetwork db'
+                sh 'docker network connect myNetwork api'
+                sh 'docker network connect myNetwork jenkins'
+                sh 'sleep 5'
             }
 
         }
@@ -80,12 +88,12 @@ pipeline {
         }
 
         stage('Docker Push to DockerHub') {
-
             steps {
                 echo 'Pushing Docker image to DockerHub...'
-                sh 'make run-docker-push'
+                sh "echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin"
+                sh "docker tag coffee-image:latest $DOCKERHUB_REPO:latest"
+                sh "docker push $DOCKERHUB_REPO:latest"
             }
-            
         }
 
     }
@@ -94,7 +102,22 @@ pipeline {
         always {
             script {
                 echo 'Cleaning up...'
-                sh 'make run-docker-clean'
+                // Remove network created
+                sh 'docker network disconnect myNetwork jenkins'
+                sh 'docker network disconnect myNetwork api'
+                sh 'docker network disconnect myNetwork db'
+                sh 'docker network rm myNetwork'
+                // Stop containers
+                sh 'docker stop api'
+                sh 'docker stop db'
+                sh 'docker rm api'
+                sh 'docker rm db'
+                // Remove all images
+                sh 'docker rmi -f mysql:8.4.0'
+                sh 'docker rmi -f coffee-image:latest'
+                sh 'docker rmi -f joaohsd/coffee-stock:latest'
+                // Remove volumes
+                sh 'docker volume rm -f my-db'
             }
         }
     }
