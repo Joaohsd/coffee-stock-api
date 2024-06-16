@@ -45,9 +45,9 @@ pipeline {
 
                     steps {
                         echo 'Notifying tests...'
-                        mail to: "$EMAIL_DEST",
-                             subject: "Tests: ${currentBuild.fullDisplayName}",
-                             body: "Successfully running unit tests with ${env.BUILD_URL}"
+//                         mail to: "$EMAIL_DEST",
+//                              subject: "Tests: ${currentBuild.fullDisplayName}",
+//                              body: "Successfully running unit tests with ${env.BUILD_URL}"
                     }
 
                 }
@@ -55,9 +55,9 @@ pipeline {
 
                     steps {
                         echo 'Notifying build...'
-                        mail to: "$EMAIL_DEST",
-                             subject: "Build: ${currentBuild.fullDisplayName}",
-                             body: "Successfully building with ${env.BUILD_URL}"
+//                         mail to: "$EMAIL_DEST",
+//                              subject: "Build: ${currentBuild.fullDisplayName}",
+//                              body: "Successfully building with ${env.BUILD_URL}"
                     }
 
                 }
@@ -87,9 +87,9 @@ pipeline {
 
             steps {
                 echo 'Notifying api tests...'
-                mail to: "$EMAIL_DEST",
-                     subject: "Build: ${currentBuild.fullDisplayName}",
-                     body: "Successfully running api integration tests with ${env.BUILD_URL}"
+//                 mail to: "$EMAIL_DEST",
+//                      subject: "Build: ${currentBuild.fullDisplayName}",
+//                      body: "Successfully running api integration tests with ${env.BUILD_URL}"
             }
 
         }
