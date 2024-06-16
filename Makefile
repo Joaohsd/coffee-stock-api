@@ -23,13 +23,13 @@ run-notify-build:
 	./scripts/notify/notify_build.sh
 
 run-docker-build:
-    chmod +x scripts/docker/build-run.sh
-    ./scripts/docker/build-run.sh
+	chmod +x scripts/docker/build-run.sh
+	./scripts/docker/build-run.sh
 
 run-docker-push:
-    chmod +x scripts/docker/push.sh
-    ./scripts/docker/push.sh
+	chmod +x scripts/docker/push.sh
+	./scripts/docker/push.sh
 
 run-docker-clean:
-    chmod +x scripts/docker/clean.sh
-    ./scripts/docker/clean.sh
+	chmod +x scripts/docker/clean.sh
+	./scripts/docker/clean.sh
