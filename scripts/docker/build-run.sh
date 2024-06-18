@@ -12,8 +12,8 @@ echo 'Creating network...'
 docker network create myNetwork
 
 echo 'Connecting containers to network...'
-#docker network connect myNetwork db
-#docker network connect myNetwork api
-#docker network connect myNetwork jenkins
+docker network connect myNetwork db
+docker network connect myNetwork api
+docker network connect myNetwork jenkins
 
 sleep 5
