@@ -1,5 +1,5 @@
 # Base image with jdk-17
-FROM openjdk:17-jdk-alpine AS build
+FROM openjdk:17-jdk-alpine
 WORKDIR /usr/src/app
 
 # Copy only the necessary files for dependency resolution
