@@ -1,0 +1,66 @@
+# Define our base image
+FROM jenkins/jenkins:lts-jdk17
+
+# Define user inside container
+USER root
+
+# Install nodejs dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    g++ \
+    curl \
+    python3 \
+    python3-pip \
+    mailutils \
+    make \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -fsSL https://deb.nodesource.com/setup_19.x | bash \
+    && apt-get install -y nodejs
+
+# Install cypress dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    libgtk2.0-0 \
+    libgtk-3-0 \
+    libgbm-dev \
+    libnotify-dev \
+    libnss3 \
+    libxss1 \
+    libasound2 \
+    libxtst6 \
+    xauth \
+    xvfb
+
+# Install docker dependendcies
+RUN apt-get update && \
+    apt-get install -y ca-certificates curl && \
+    install -m 0755 -d /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc && \
+    chmod a+r /etc/apt/keyrings/docker.asc && \
+    echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+      tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Install docker
+RUN apt-get update && \
+    apt-get install -y  docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-buildx-plugin \
+    docker-compose-plugin
+
+# Verify installation
+RUN node -v &&\
+    docker -v && \
+    docker compose version
+
+# Reset to root directory
+WORKDIR /
+
+# Erase downloaded archive files
+RUN apt-get clean
+
+# Define user inside container
+USER jenkins

@@ -5,6 +5,8 @@ import com.inatel.coffeestock.model.entity.Client
 import com.inatel.coffeestock.model.service.ClientService
 import com.inatel.coffeestock.model.service.StockService
 import com.inatel.coffeestock.utils.exception.ElementAlreadyExistsException
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.beans.BeanUtils
@@ -38,20 +40,36 @@ class ClientController(private val clientService: ClientService, private val sto
     fun handleForbiddenRequest(e : HttpMessageNotReadableException) : ResponseEntity<String> =
             ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.message);
 
+    @ApiResponses(
+            value = [
+                ApiResponse(responseCode = "200", description = "Clients retrieved successfully"),
+                ApiResponse(responseCode = "404", description = "No clients found")
+            ]
+    )
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     fun getClients() : ResponseEntity<Any>{
         return ResponseEntity.status(HttpStatus.OK).body(clientService.getClients())
     }
 
+    @ApiResponses(
+            value = [
+                ApiResponse(responseCode = "200", description = "Client retrieved successfully"),
+                ApiResponse(responseCode = "404", description = "Client not found")
+            ]
+    )
     @GetMapping("/{clientCpf}")
-    @ResponseStatus(HttpStatus.OK)
     fun getClient(@PathVariable clientCpf: String) : ResponseEntity<Any>{
         return ResponseEntity.status(HttpStatus.OK).body(clientService.getClient(clientCpf))
     }
 
+    @ApiResponses(
+            value = [
+                ApiResponse(responseCode = "201", description = "Client created successfully"),
+                ApiResponse(responseCode = "400", description = "Client already exists"),
+                ApiResponse(responseCode = "403", description = "Invalid client data")
+            ]
+    )
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     fun addClient(@Valid @RequestBody clientDTO: ClientDTO) : ResponseEntity<Any> {
         var clientToBeAdded = Client()
 
@@ -64,8 +82,14 @@ class ClientController(private val clientService: ClientService, private val sto
         return ResponseEntity.status(HttpStatus.CREATED).body(clientAdded);
     }
 
+    @ApiResponses(
+            value = [
+                ApiResponse(responseCode = "200", description = "Client updated successfully"),
+                ApiResponse(responseCode = "404", description = "Client not found"),
+                ApiResponse(responseCode = "403", description = "Invalid client data")
+            ]
+    )
     @PutMapping
-    @ResponseStatus(HttpStatus.OK)
     fun updateClient(@Valid @RequestBody clientDTO: ClientDTO) : ResponseEntity<Any> {
         var clientToBeUpdated = Client()
 
@@ -78,16 +102,26 @@ class ClientController(private val clientService: ClientService, private val sto
         return ResponseEntity.status(HttpStatus.OK).body(clientUpdated);
     }
 
+    @ApiResponses(
+            value = [
+                ApiResponse(responseCode = "200", description = "Client deleted successfully"),
+                ApiResponse(responseCode = "404", description = "Client not found")
+            ]
+    )
     @DeleteMapping("/{clientCpf}")
-    @ResponseStatus(HttpStatus.OK)
     fun deleteClient(@PathVariable clientCpf: String) : ResponseEntity<Any> {
         val clientDeleted = clientService.deleteClient(clientCpf)
 
         return ResponseEntity.status(HttpStatus.OK).body(clientDeleted);
     }
 
+    @ApiResponses(
+            value = [
+                ApiResponse(responseCode = "200", description = "Client stocks retrieved successfully"),
+                ApiResponse(responseCode = "404", description = "Client or stocks not found")
+            ]
+    )
     @GetMapping("/{clientCpf}/stocks")
-    @ResponseStatus(HttpStatus.OK)
     fun getStocksFromClient(@PathVariable clientCpf: String) : ResponseEntity<Any>{
         return ResponseEntity.status(HttpStatus.OK).body(stockService.getStocksFromClient(clientCpf))
     }

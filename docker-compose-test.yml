@@ -1,0 +1,24 @@
+services:
+  db:
+    image: mysql:8.4.0
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'coffee'
+      MYSQL_ROOT_PASSWORD: 'root'
+    volumes:
+      - my-db:/var/lib/mysql
+      - /home/joao/workspace/coffee-stock-api/schema/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - 3306:3306
+
+  api:
+    image: coffee-image:latest
+    container_name: api
+    ports:
+      - 9000:9000
+    depends_on:
+      - db
+
+volumes:
+  my-db:

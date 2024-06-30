@@ -1,21 +1,29 @@
 package com.inatel.coffeestock.model.dto
 
+import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
 data class StockDTO(
     @field:NotNull
+    @Schema(example = "1", accessMode = Schema.AccessMode.READ_ONLY,
+            required = false)
     private var id: Int,
     @field:NotNull
+    @Schema(example = "10", required = true)
     private var quantity: Int,
     @field:NotBlank
+    @Schema(example = "Arabic", required = true)
     private var coffeeType: String,
     @field:NotNull
+    @Schema(example = "20", required = true)
     private var coffeeCupping: Double,
     @field:NotBlank
+    @Schema(example = "Available", required = true)
     private var status: String,
     @field:NotBlank
+    @Schema(example = "123.456.789-10", required = true)
     @field:Size(min = 14, max = 14, message = "CPF: Out of length (min:14 and max:14 characters).")
     private var clientCpf : String
 ) {
